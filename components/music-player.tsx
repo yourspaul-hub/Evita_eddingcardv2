@@ -83,10 +83,7 @@ export function MusicPlayer({ autoplay = false }: MusicPlayerProps) {
               boxShadow: "0 4px 24px rgba(0,0,0,0.4)",
             }}
           >
-            {/* Note icon */}
             <span style={{ color: "rgba(200,169,81,0.75)", fontSize: "0.85rem" }}>♪</span>
-
-            {/* Play / Pause button */}
             <button
               onClick={toggle}
               aria-label={playing ? "Pause music" : "Play music"}
@@ -107,8 +104,6 @@ export function MusicPlayer({ autoplay = false }: MusicPlayerProps) {
             >
               {playing ? "❚❚" : "▶"}
             </button>
-
-            {/* Label */}
             <span
               style={{
                 fontFamily: "'Cormorant Garamond', serif",
@@ -120,8 +115,6 @@ export function MusicPlayer({ autoplay = false }: MusicPlayerProps) {
             >
               {playing ? "Now playing" : "Play music"}
             </span>
-
-            {/* Volume slider */}
             <input
               type="range"
               min="0"

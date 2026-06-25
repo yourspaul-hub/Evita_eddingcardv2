@@ -4,7 +4,6 @@ import React from "react";
 
 // ─── Seamless gradient dividers (no dots) ────────────────────────────────────
 
-/** Fades from `fromColor` at top into `toColor` at bottom */
 export function GradientDivider({
   fromColor,
   toColor,
@@ -27,7 +26,6 @@ export function GradientDivider({
   );
 }
 
-/** Smooth wave from dark→light (place at bottom of a dark section) */
 export function LaceBorderBottom({
   fromColor = "#2E1019",
   toColor = "#FAF7F2",
@@ -54,7 +52,6 @@ export function LaceBorderBottom({
   );
 }
 
-/** Smooth wave from light→dark (place at top of a dark section) */
 export function LaceBorderTop({
   fromColor = "#FAF7F2",
   toColor = "#2E1019",
@@ -81,7 +78,6 @@ export function LaceBorderTop({
   );
 }
 
-/** Thin decorative gold rule — use as a section separator inside a section */
 export function GoldRule({ style }: { style?: React.CSSProperties }) {
   return (
     <div
@@ -106,7 +102,6 @@ export function GoldRule({ style }: { style?: React.CSSProperties }) {
   );
 }
 
-/** No-op kept for backward compatibility so components that imported CornerFlourish don't break */
 export function CornerFlourish({
   className = "",
   style,

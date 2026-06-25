@@ -17,7 +17,6 @@ export function EventSchedule() {
         textAlign: "center",
       }}
     >
-      {/* Heading */}
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -60,7 +59,6 @@ export function EventSchedule() {
         />
       </motion.div>
 
-      {/* Timeline */}
       <div
         style={{
           maxWidth: "560px",
@@ -69,7 +67,6 @@ export function EventSchedule() {
           textAlign: "left",
         }}
       >
-        {/* Vertical timeline line */}
         <div
           style={{
             position: "absolute",
@@ -77,12 +74,10 @@ export function EventSchedule() {
             top: 0,
             bottom: 0,
             width: "1px",
-            background:
-              "linear-gradient(to bottom, transparent, rgba(200,169,81,0.25) 10%, rgba(200,169,81,0.25) 90%, transparent)",
+            background: "linear-gradient(to bottom, transparent, rgba(200,169,81,0.25) 10%, rgba(200,169,81,0.25) 90%, transparent)",
             pointerEvents: "none",
           }}
         />
-
         {weddingConfig.events.map((event, i) => (
           <motion.div
             key={i}
@@ -98,14 +93,7 @@ export function EventSchedule() {
               position: "relative",
             }}
           >
-            {/* Time column */}
-            <div
-              style={{
-                width: "72px",
-                flexShrink: 0,
-                textAlign: "right",
-              }}
-            >
+            <div style={{ width: "72px", flexShrink: 0, textAlign: "right" }}>
               <span
                 style={{
                   fontFamily: "'Cormorant Garamond', serif",
@@ -119,8 +107,6 @@ export function EventSchedule() {
                 {event.time}
               </span>
             </div>
-
-            {/* Dot on the line */}
             <div
               style={{
                 width: "10px",
@@ -133,8 +119,6 @@ export function EventSchedule() {
                 zIndex: 1,
               }}
             />
-
-            {/* Event title only — no emoji, no description */}
             <p
               style={{
                 fontFamily: "'Playfair Display', serif",
@@ -153,16 +137,12 @@ export function EventSchedule() {
         ))}
       </div>
 
-      {/* Venue note */}
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.7, delay: 0.3 }}
-        style={{
-          padding: "2.5rem 0 0",
-          textAlign: "center",
-        }}
+        style={{ padding: "2.5rem 0 0", textAlign: "center" }}
       >
         <p
           style={{
@@ -206,7 +186,6 @@ export function EventSchedule() {
         </p>
       </motion.div>
 
-      {/* Wave into RSVP */}
       <LaceBorderBottom fromColor="#251018" toColor="#FAF7F2" height={72} />
     </section>
   );

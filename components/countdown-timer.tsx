@@ -18,7 +18,6 @@ function getTimeLeft() {
 
 function Digit({ value, label }: { value: number; label: string }) {
   const display = String(value).padStart(2, "0");
-
   return (
     <motion.div
       className="flex flex-col items-center"
@@ -27,7 +26,6 @@ function Digit({ value, label }: { value: number; label: string }) {
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
     >
-      {/* Card */}
       <div
         style={{
           width: "clamp(72px, 19vw, 110px)",
@@ -43,13 +41,11 @@ function Digit({ value, label }: { value: number; label: string }) {
           overflow: "hidden",
         }}
       >
-        {/* Subtle inner glow */}
         <div
           style={{
             position: "absolute",
             inset: 0,
-            background:
-              "radial-gradient(ellipse at center, rgba(200,169,81,0.08) 0%, transparent 70%)",
+            background: "radial-gradient(ellipse at center, rgba(200,169,81,0.08) 0%, transparent 70%)",
             pointerEvents: "none",
           }}
         />
@@ -68,8 +64,6 @@ function Digit({ value, label }: { value: number; label: string }) {
           {display}
         </span>
       </div>
-
-      {/* Label */}
       <span
         style={{
           fontFamily: "'Cormorant Garamond', serif",
@@ -103,7 +97,6 @@ export function CountdownTimer() {
         textAlign: "center",
       }}
     >
-      {/* Section heading */}
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -136,7 +129,6 @@ export function CountdownTimer() {
         >
           Our Wedding Day
         </h2>
-        {/* Gold rule */}
         <div
           style={{
             width: "60px",
@@ -146,8 +138,6 @@ export function CountdownTimer() {
           }}
         />
       </motion.div>
-
-      {/* Digits row */}
       <div
         style={{
           display: "flex",
@@ -163,8 +153,6 @@ export function CountdownTimer() {
         <Digit value={timeLeft.minutes} label="Mins" />
         <Digit value={timeLeft.seconds} label="Secs" />
       </div>
-
-      {/* Date below */}
       <motion.p
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
