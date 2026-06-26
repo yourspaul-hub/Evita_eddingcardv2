@@ -5,157 +5,210 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { weddingConfig } from "@/lib/wedding-config";
 
-const LEAF = "#2D5A1B";
-const SAGE  = "#4A7A35";
+const GOLD    = "#C8A951";
+const GOLD_LT = "#E2C97A";
+const LEAF    = "#2D5A1B";
+const SAGE    = "#4A7A35";
 
+/* ── Scallop lace edge — horizontal, scales via preserveAspectRatio="none" ── */
+function ScallopEdgeH({ reverse = false }: { reverse?: boolean }) {
+  return (
+    <svg width="100%" height="16" viewBox="0 0 280 16" preserveAspectRatio="none" fill="none" style={{ display: "block" }}>
+      {Array.from({ length: 20 }, (_, i) => (
+        <path key={i}
+          d={reverse
+            ? `M ${i * 14} 16 Q ${i * 14 + 7} 2 ${(i + 1) * 14} 16`
+            : `M ${i * 14} 0  Q ${i * 14 + 7} 14 ${(i + 1) * 14} 0`}
+          stroke={GOLD} strokeWidth="0.9" fill="rgba(200,169,81,0.07)"
+        />
+      ))}
+      <line x1="0" y1={reverse ? "16" : "0"} x2="280" y2={reverse ? "16" : "0"}
+        stroke={GOLD} strokeWidth="0.5" opacity="0.6"/>
+    </svg>
+  );
+}
+
+/* ── Botanical corner piece (rotated/mirrored for each corner) ── */
+function BotCorner({ style }: { style?: React.CSSProperties }) {
+  return (
+    <svg width="82" height="82" viewBox="0 0 82 82" fill="none"
+      style={{ position: "absolute", pointerEvents: "none", zIndex: 6, ...style }}>
+      <path d="M4 78 Q28 50 54 24 Q64 14 78 4" stroke={LEAF} strokeWidth="2.2" strokeLinecap="round" fill="none"/>
+      <path d="M28 54 Q20 38 26 28" stroke={LEAF} strokeWidth="1.2" strokeLinecap="round" fill="none"/>
+      <path d="M50 28 Q56 16 50 10" stroke={LEAF} strokeWidth="1.2" strokeLinecap="round" fill="none"/>
+      <ellipse cx="40" cy="44" rx="12" ry="5"   fill={LEAF} transform="rotate(-45 40 44)"/>
+      <ellipse cx="54" cy="28" rx="11" ry="4.5" fill={LEAF} transform="rotate(-55 54 28)"/>
+      <ellipse cx="22" cy="62" rx="9"  ry="3.8" fill={LEAF} transform="rotate(-30 22 62)"/>
+      <ellipse cx="66" cy="16" rx="9"  ry="3.8" fill={LEAF} transform="rotate(-65 66 16)"/>
+      <ellipse cx="32" cy="36" rx="8"  ry="3.2" fill={SAGE} transform="rotate(-48 32 36)"/>
+      <ellipse cx="50" cy="20" rx="7"  ry="3"   fill={SAGE} transform="rotate(-60 50 20)"/>
+      <circle cx="7"  cy="75" r="5"   fill={GOLD}/>
+      <circle cx="7"  cy="75" r="2.8" fill={GOLD_LT}/>
+      <circle cx="7"  cy="75" r="1.2" fill="#FFF8E0"/>
+      <circle cx="26" cy="28" r="2.5" fill={GOLD} opacity="0.9"/>
+      <circle cx="50" cy="10" r="2.5" fill={GOLD} opacity="0.9"/>
+      <circle cx="16" cy="66" r="2"   fill={GOLD} opacity="0.75"/>
+      <circle cx="62" cy="24" r="2"   fill={GOLD} opacity="0.7"/>
+    </svg>
+  );
+}
+
+/* ── The physical wedding card ── */
+function WeddingCard({ onCardClick }: { onCardClick: () => void }) {
+  return (
+    <motion.div
+      whileHover={{ y: -8, boxShadow: "0 56px 110px rgba(0,0,0,0.72), 0 0 60px rgba(200,169,81,0.22)" }}
+      transition={{ type: "spring", stiffness: 180, damping: 18 }}
+      onClick={onCardClick}
+      style={{
+        width: "clamp(300px, 82vw, 390px)",
+        background: "linear-gradient(165deg,#FDFAF2 0%,#F8F0DE 45%,#FDF6EB 80%,#FDFAF2 100%)",
+        borderRadius: "4px",
+        boxShadow: "0 36px 90px rgba(0,0,0,0.65), 0 0 40px rgba(200,169,81,0.1), inset 0 1px 0 rgba(255,255,255,0.9)",
+        position: "relative",
+        overflow: "hidden",
+        cursor: "pointer",
+      }}
+    >
+      {/* Outer gold border */}
+      <div style={{ position:"absolute", inset:"12px", border:"1.8px solid rgba(200,169,81,0.88)", borderRadius:"3px", pointerEvents:"none", zIndex:5 }}/>
+      {/* Inner gold border */}
+      <div style={{ position:"absolute", inset:"17px", border:"0.6px solid rgba(200,169,81,0.45)", borderRadius:"2px", pointerEvents:"none", zIndex:5 }}/>
+
+      {/* Botanical corner ornaments */}
+      <BotCorner style={{ top:13, left:13 }}/>
+      <BotCorner style={{ top:13, right:13, transform:"scaleX(-1)" }}/>
+      <BotCorner style={{ bottom:13, left:13, transform:"scaleY(-1)" }}/>
+      <BotCorner style={{ bottom:13, right:13, transform:"scale(-1,-1)" }}/>
+
+      {/* Scallop lace edges (between corners) */}
+      <div style={{ position:"absolute", top:"16px", left:"90px", right:"90px", height:"16px", zIndex:4 }}>
+        <ScallopEdgeH />
+      </div>
+      <div style={{ position:"absolute", bottom:"16px", left:"90px", right:"90px", height:"16px", zIndex:4 }}>
+        <ScallopEdgeH reverse />
+      </div>
+
+      {/* Card content */}
+      <div style={{ padding:"86px 52px 70px", textAlign:"center", position:"relative", zIndex:6 }}>
+        {/* Monogram */}
+        <div style={{ width:88, height:88, margin:"0 auto 12px", position:"relative" }}>
+          <Image src="/monogram-light.png" alt="R & E" fill priority
+            style={{ objectFit:"contain", filter:"brightness(0.8) sepia(0.25) saturate(0.75)" }}/>
+        </div>
+
+        {/* Gold divider */}
+        <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:14, justifyContent:"center" }}>
+          <div style={{ height:"1px", width:42, background:`linear-gradient(90deg,transparent,${GOLD})` }}/>
+          <span style={{ color:GOLD, fontSize:"0.7rem" }}>✦</span>
+          <div style={{ height:"1px", width:42, background:`linear-gradient(90deg,${GOLD},transparent)` }}/>
+        </div>
+
+        <p style={{ fontFamily:"'Cormorant Garamond',serif", fontWeight:300, fontSize:"0.67rem", letterSpacing:"0.36em", textTransform:"uppercase", color:"rgba(107,45,62,0.55)", marginBottom:14 }}>
+          Save the Date
+        </p>
+
+        {/* Names in CAC Champagne */}
+        <h1 style={{ fontFamily:"'CAC Champagne','Great Vibes',cursive", fontSize:"clamp(2.5rem,10vw,3.8rem)", color:"#3D1520", lineHeight:1.05, letterSpacing:"0.02em", marginBottom:2 }}>
+          {weddingConfig.couple.groomName}
+        </h1>
+        <p style={{ fontFamily:"'Cormorant Garamond',serif", fontStyle:"italic", fontSize:"1.35rem", color:"rgba(200,169,81,0.85)", marginBottom:2 }}>&amp;</p>
+        <h1 style={{ fontFamily:"'CAC Champagne','Great Vibes',cursive", fontSize:"clamp(2.5rem,10vw,3.8rem)", color:"#3D1520", lineHeight:1.05, letterSpacing:"0.02em", marginBottom:24 }}>
+          {weddingConfig.couple.brideName}
+        </h1>
+
+        {/* Botanical mid-divider */}
+        <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:18 }}>
+          <div style={{ height:"1px", flex:1, background:`linear-gradient(90deg,transparent,rgba(45,90,27,0.5))` }}/>
+          <svg width="36" height="22" viewBox="0 0 36 22" fill="none">
+            <path d="M2 11 Q9 2 18 11 Q27 20 34 11" stroke={LEAF} strokeWidth="1.4" fill="none"/>
+            <ellipse cx="10"  cy="6.5"  rx="6.5" ry="2.8" fill={LEAF} transform="rotate(-30 10 6.5)"  opacity="0.9"/>
+            <ellipse cx="26"  cy="15.5" rx="6.5" ry="2.8" fill={LEAF} transform="rotate( 30 26 15.5)" opacity="0.9"/>
+            <circle  cx="18"  cy="11"   r="2.8"  fill={GOLD}/>
+            <circle  cx="18"  cy="11"   r="1.3"  fill={GOLD_LT}/>
+          </svg>
+          <div style={{ height:"1px", flex:1, background:`linear-gradient(90deg,rgba(45,90,27,0.5),transparent)` }}/>
+        </div>
+
+        {/* Date */}
+        <p style={{ fontFamily:"'Playfair Display',serif", fontWeight:500, fontSize:"1.05rem", letterSpacing:"0.22em", color:"#3D1520", opacity:0.78, marginBottom:4 }}>
+          {weddingConfig.wedding.dotDate}
+        </p>
+        <p style={{ fontFamily:"'Cormorant Garamond',serif", fontWeight:300, fontSize:"0.82rem", letterSpacing:"0.1em", color:"rgba(107,45,62,0.55)", marginBottom:28 }}>
+          {weddingConfig.wedding.dayOfWeek} · {weddingConfig.wedding.time}
+        </p>
+
+        {/* Pulsing open CTA */}
+        <motion.div animate={{ opacity:[0.45,0.95,0.45] }} transition={{ duration:2.6, repeat:Infinity }}>
+          <div style={{
+            display:"inline-block", padding:"8px 24px", borderRadius:"20px",
+            border:`1px solid rgba(200,169,81,0.65)`,
+            fontFamily:"'Montserrat',sans-serif", fontSize:"0.6rem",
+            letterSpacing:"0.28em", textTransform:"uppercase",
+            color:"rgba(107,45,62,0.68)",
+          }}>
+            Open Invitation
+          </div>
+        </motion.div>
+      </div>
+    </motion.div>
+  );
+}
+
+/* ── Main exported component ── */
 export function EnvelopeScreen({ onOpen }: { onOpen: () => void }) {
   const [clicked, setClicked] = useState(false);
-  const [petals, setPetals] = useState<{ id: number; left: string; delay: string; dur: string }[]>([]);
+  const [petals, setPetals] = useState<{ id:number; left:string; delay:string; dur:string }[]>([]);
 
   useEffect(() => {
-    setPetals(Array.from({ length: 14 }, (_, i) => ({
+    setPetals(Array.from({ length:14 }, (_,i) => ({
       id: i,
-      left: `${Math.random() * 100}%`,
-      delay: `${Math.random() * 10}s`,
-      dur: `${7 + Math.random() * 6}s`,
+      left:  `${Math.random() * 100}%`,
+      delay: `${Math.random() * 12}s`,
+      dur:   `${8 + Math.random() * 6}s`,
     })));
   }, []);
 
-  const handleClick = () => { setClicked(true); setTimeout(onOpen, 900); };
+  const handleClick = () => {
+    if (clicked) return;
+    setClicked(true);
+    setTimeout(onOpen, 950);
+  };
 
   return (
     <AnimatePresence>
       {!clicked && (
         <motion.div
-          key="envelope"
+          key="wedding-card-splash"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          exit={{ opacity: 0, scale: 1.04 }}
-          transition={{ duration: 0.7 }}
+          exit={{ opacity: 0, scale: 1.05, filter: "blur(7px)" }}
+          transition={{ duration: 0.85 }}
           className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden cursor-pointer select-none"
-          style={{ background: "linear-gradient(160deg, #2E1019 0%, #4A1E2B 50%, #2E1019 100%)" }}
+          style={{ background: "linear-gradient(145deg,#160810 0%,#2E1019 45%,#1c0e14 100%)" }}
           onClick={handleClick}
         >
-          {/* Petals */}
+          {/* Falling petals */}
           {petals.map(p => (
-            <span key={p.id} className="petal" style={{ left: p.left, animationDelay: p.delay, animationDuration: p.dur, fontSize: "0.9rem" }}>🌸</span>
+            <span key={p.id} className="petal"
+              style={{ left:p.left, animationDelay:p.delay, animationDuration:p.dur, fontSize:"0.95rem" }}>
+              🌸
+            </span>
           ))}
 
-          {/* Radial glow */}
-          <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at center, rgba(200,169,81,0.15) 0%, transparent 65%)" }} />
+          {/* Warm ambient glow behind card */}
+          <div className="absolute inset-0 pointer-events-none"
+            style={{ background:"radial-gradient(ellipse 70% 55% at center,rgba(200,169,81,0.11) 0%,transparent 65%)" }}/>
 
-          {/* Dark green botanical corner sprigs */}
-          <svg width="100" height="100" viewBox="0 0 100 100" fill="none" style={{ position: "absolute", top: 12, left: 12, opacity: 0.5 }}>
-            <path d="M8 90 Q30 50 70 20 Q82 12 94 8" stroke={LEAF} strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-            <ellipse cx="42" cy="50" rx="10" ry="5" fill={LEAF} opacity="0.65" transform="rotate(-45 42 50)"/>
-            <ellipse cx="62" cy="34" rx="9" ry="4.5" fill={LEAF} opacity="0.6" transform="rotate(-60 62 34)"/>
-            <ellipse cx="26" cy="68" rx="8" ry="4" fill={SAGE} opacity="0.5" transform="rotate(-30 26 68)"/>
-            <ellipse cx="78" cy="22" rx="7" ry="3.5" fill={LEAF} opacity="0.55" transform="rotate(-70 78 22)"/>
-          </svg>
-          <svg width="100" height="100" viewBox="0 0 100 100" fill="none" style={{ position: "absolute", top: 12, right: 12, opacity: 0.5, transform: "scaleX(-1)" }}>
-            <path d="M8 90 Q30 50 70 20 Q82 12 94 8" stroke={LEAF} strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-            <ellipse cx="42" cy="50" rx="10" ry="5" fill={LEAF} opacity="0.65" transform="rotate(-45 42 50)"/>
-            <ellipse cx="62" cy="34" rx="9" ry="4.5" fill={LEAF} opacity="0.6" transform="rotate(-60 62 34)"/>
-            <ellipse cx="26" cy="68" rx="8" ry="4" fill={SAGE} opacity="0.5" transform="rotate(-30 26 68)"/>
-          </svg>
-          <svg width="80" height="80" viewBox="0 0 80 80" fill="none" style={{ position: "absolute", bottom: 12, left: 12, opacity: 0.4, transform: "scaleY(-1)" }}>
-            <path d="M8 72 Q25 40 55 18 Q65 10 74 6" stroke={LEAF} strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-            <ellipse cx="34" cy="40" rx="8" ry="4" fill={LEAF} opacity="0.6" transform="rotate(-42 34 40)"/>
-            <ellipse cx="50" cy="26" rx="7" ry="3.5" fill={SAGE} opacity="0.55" transform="rotate(-58 50 26)"/>
-          </svg>
-          <svg width="80" height="80" viewBox="0 0 80 80" fill="none" style={{ position: "absolute", bottom: 12, right: 12, opacity: 0.4, transform: "scale(-1,-1)" }}>
-            <path d="M8 72 Q25 40 55 18 Q65 10 74 6" stroke={LEAF} strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-            <ellipse cx="34" cy="40" rx="8" ry="4" fill={LEAF} opacity="0.6" transform="rotate(-42 34 40)"/>
-            <ellipse cx="50" cy="26" rx="7" ry="3.5" fill={SAGE} opacity="0.55" transform="rotate(-58 50 26)"/>
-          </svg>
-
-          {/* Outer gold border frames */}
-          <div className="absolute inset-8 pointer-events-none rounded-sm" style={{ border: "1px solid rgba(200,169,81,0.2)" }} />
-          <div className="absolute inset-10 pointer-events-none rounded-sm" style={{ border: "1px solid rgba(200,169,81,0.1)" }} />
-
-          {/* Card */}
+          {/* The physical invitation card — lifts in on load, folds away on click */}
           <motion.div
-            animate={clicked ? { scaleY: 0.02, opacity: 0 } : {}}
-            transition={{ duration: 0.5 }}
-            className="relative z-10 flex flex-col items-center text-center px-10 py-14"
-            style={{ maxWidth: 380, width: "90%" }}
+            initial={{ opacity:0, y:28, scale:0.95 }}
+            animate={{ opacity:1, y:0, scale:1 }}
+            exit={{ opacity:0, y:-24, scale:1.04, rotateX:14 }}
+            transition={{ delay:0.18, duration:0.9, ease:"easeOut" }}
+            style={{ perspective:"1300px" }}
           >
-            <div className="flex items-center gap-3 mb-8 w-full">
-              <div className="flex-1 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(200,169,81,0.6))" }} />
-              <span style={{ color: "#C8A951", fontSize: 18 }}>✦</span>
-              <div className="flex-1 h-px" style={{ background: "linear-gradient(90deg, rgba(200,169,81,0.6), transparent)" }} />
-            </div>
-
-            <motion.div
-              animate={{ scale: [1, 1.04, 1] }}
-              transition={{ duration: 4, repeat: Infinity }}
-              className="relative mb-6 flex items-center justify-center"
-              style={{ width: 140, height: 140 }}
-            >
-              <Image
-                src="/monogram-light.png"
-                alt="R & E Monogram"
-                width={140}
-                height={140}
-                style={{
-                  filter: "invert(1) brightness(2.5) sepia(0.35)",
-                  mixBlendMode: "screen",
-                  opacity: 0.95,
-                  objectFit: "contain",
-                }}
-                priority
-              />
-            </motion.div>
-
-            <p className="font-sans text-xs tracking-widest uppercase mb-5" style={{ color: "rgba(200,169,81,0.7)", letterSpacing: "0.35em" }}>
-              {weddingConfig.messages.saveTheDate}
-            </p>
-
-            {/* Names in CAC Champagne font */}
-            <h1
-              className="mb-2"
-              style={{
-                fontFamily: "'CAC Champagne', 'Great Vibes', cursive",
-                fontSize: "clamp(2.4rem, 9vw, 3.2rem)",
-                color: "rgba(250,247,242,0.95)",
-                lineHeight: 1.1,
-                letterSpacing: "0.03em",
-              }}
-            >
-              {weddingConfig.couple.groomName}
-            </h1>
-            <p className="font-cormorant italic text-xl mb-2" style={{ color: "rgba(200,169,81,0.8)" }}>&amp;</p>
-            <h1
-              className="mb-6"
-              style={{
-                fontFamily: "'CAC Champagne', 'Great Vibes', cursive",
-                fontSize: "clamp(2.4rem, 9vw, 3.2rem)",
-                color: "rgba(250,247,242,0.95)",
-                lineHeight: 1.1,
-                letterSpacing: "0.03em",
-              }}
-            >
-              {weddingConfig.couple.brideName}
-            </h1>
-
-            <p className="font-playfair tracking-widest mb-2" style={{ color: "#C8A951", letterSpacing: "0.2em", fontSize: "1.1rem" }}>
-              {weddingConfig.wedding.dotDate}
-            </p>
-
-            <div className="flex items-center gap-3 mt-6 mb-8 w-full">
-              <div className="flex-1 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(200,169,81,0.6))" }} />
-              <span style={{ color: "#C8A951", fontSize: 18 }}>✦</span>
-              <div className="flex-1 h-px" style={{ background: "linear-gradient(90deg, rgba(200,169,81,0.6), transparent)" }} />
-            </div>
-
-            <motion.div animate={{ opacity: [0.5, 1, 0.5], y: [0, -4, 0] }} transition={{ duration: 2.2, repeat: Infinity }}
-              className="flex flex-col items-center gap-2">
-              <div className="px-7 py-2.5 rounded-full font-sans text-xs tracking-widest uppercase"
-                style={{ border: "1px solid rgba(200,169,81,0.5)", color: "#C8A951", letterSpacing: "0.25em" }}>
-                Open Invitation
-              </div>
-              <span style={{ color: "rgba(200,169,81,0.4)", fontSize: 10, letterSpacing: "0.15em" }}>tap anywhere to continue</span>
-            </motion.div>
+            <WeddingCard onCardClick={handleClick} />
           </motion.div>
         </motion.div>
       )}
