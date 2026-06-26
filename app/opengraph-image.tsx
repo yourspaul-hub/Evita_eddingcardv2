@@ -3,7 +3,7 @@ import { readFileSync } from "fs";
 import { join } from "path";
 
 export const runtime = "nodejs";
-export const alt = "Roshan & Evita Wedding — avitawedsroshan.com";
+export const alt = "Roshan & Evita Wedding — evitawedsroshan.com";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -31,7 +31,7 @@ export default function Image() {
 
         {/* Website URL */}
         <p style={{ color: "rgba(200,169,81,0.72)", fontSize: 24, letterSpacing: "0.3em", textTransform: "uppercase", margin: "0 0 28px", display: "flex" }}>
-          avitawedsroshan.com
+          evitawedsroshan.com
         </p>
 
         {/* Monogram */}

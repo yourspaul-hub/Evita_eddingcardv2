@@ -12,8 +12,8 @@ export const metadata: Metadata = {
   openGraph: {
     title: `${weddingConfig.couple.groomName} & ${weddingConfig.couple.brideName} | Wedding`,
     description: `Join us on ${weddingConfig.wedding.displayDate} at ${weddingConfig.wedding.venue}`,
-    url: "https://avitawedsroshan.com",
-    siteName: "Avita Weds Roshan",
+    url: "https://evitawedsroshan.com",
+    siteName: "Evita Weds Roshan",
     type: "website",
   },
   twitter: {
