@@ -36,12 +36,12 @@ export function HeroSection() {
         style={{ background: "radial-gradient(ellipse at center, transparent 30%, rgba(46,16,25,0.7) 100%)" }}
       />
 
-      {/* ── Premium botanical top band ── */}
+      {/* Premium botanical top band */}
       <div className="absolute inset-x-0 top-0" style={{ zIndex: 2 }}>
         <PremiumBotanicalBorder variant="dark" />
       </div>
 
-      {/* ── Premium botanical bottom band ── */}
+      {/* Premium botanical bottom band */}
       <div className="absolute inset-x-0 bottom-0" style={{ zIndex: 2 }}>
         <PremiumBotanicalBorder variant="dark" />
       </div>
@@ -96,7 +96,7 @@ export function HeroSection() {
           </div>
         </motion.div>
 
-        {/* ── Premium botanical divider before caricature ── */}
+        {/* Premium botanical divider before caricature */}
         <motion.div initial={{ opacity:0, scaleX:0.5 }} animate={{ opacity:1, scaleX:1 }} transition={{ delay:0.8, duration:0.8 }}
           style={{ width:"100%", maxWidth:"560px" }}>
           <PremiumBotanicalBorder variant="dark" />
@@ -166,12 +166,6 @@ export function HeroSection() {
             {weddingConfig.wedding.venueMapCode}
           </p>
         </motion.div>
-
-        <motion.p initial={{ opacity:0 }} animate={{ opacity:1 }} transition={{ delay:1.5 }}
-          className="font-cormorant italic mt-6 text-sm md:text-base"
-          style={{ color:"rgba(200,169,81,0.55)", letterSpacing:"0.05em" }}>
-          {weddingConfig.messages.formalFollow}
-        </motion.p>
 
         {/* Scroll chevron */}
         <motion.div animate={{ y:[0,8,0], opacity:[0.4,0.9,0.4] }} transition={{ duration:2.2, repeat:Infinity }}

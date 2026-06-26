@@ -23,7 +23,6 @@ export function EventSchedule() {
   return (
     <section style={{ background:"linear-gradient(180deg,#2E1019 0%,#251018 100%)", padding:"0 0 0", textAlign:"center" }}>
 
-      {/* ── Premium botanical header border ── */}
       <PremiumBotanicalBorder variant="dark" style={{ marginBottom: 0 }} />
 
       {/* Section heading */}
@@ -34,9 +33,6 @@ export function EventSchedule() {
         transition={{ duration:0.7 }}
         style={{ padding:"3rem 1.5rem 2.5rem" }}
       >
-        <p style={{ fontFamily:"'Cormorant Garamond',serif", fontWeight:300, fontSize:"clamp(0.7rem,2.5vw,0.82rem)", letterSpacing:"0.28em", textTransform:"uppercase", color:GOLD_DIM, marginBottom:"0.5rem" }}>
-          Join us for
-        </p>
         <h2 style={{ fontFamily:"'Playfair Display',serif", fontWeight:400, fontStyle:"italic", fontSize:"clamp(1.8rem,5vw,2.6rem)", color:CREAM, margin:0 }}>
           Order of Ceremony
         </h2>
