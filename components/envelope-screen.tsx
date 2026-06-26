@@ -5,6 +5,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { weddingConfig } from "@/lib/wedding-config";
 
+const LEAF = "#2D5A1B";
+const SAGE  = "#4A7A35";
+
 export function EnvelopeScreen({ onOpen }: { onOpen: () => void }) {
   const [clicked, setClicked] = useState(false);
   const [petals, setPetals] = useState<{ id: number; left: string; delay: string; dur: string }[]>([]);
@@ -39,15 +42,34 @@ export function EnvelopeScreen({ onOpen }: { onOpen: () => void }) {
           ))}
 
           {/* Radial glow */}
-          <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at center, rgba(200,169,81,0.18) 0%, transparent 65%)" }} />
+          <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at center, rgba(200,169,81,0.15) 0%, transparent 65%)" }} />
 
-          {/* Corner flourishes */}
-          <div className="absolute top-6 left-6 text-4xl opacity-20">❧</div>
-          <div className="absolute top-6 right-6 text-4xl opacity-20" style={{ transform: "scaleX(-1)" }}>❧</div>
-          <div className="absolute bottom-6 left-6 text-4xl opacity-20" style={{ transform: "scaleY(-1)" }}>❧</div>
-          <div className="absolute bottom-6 right-6 text-4xl opacity-20" style={{ transform: "scale(-1,-1)" }}>❧</div>
+          {/* Dark green botanical corner sprigs */}
+          <svg width="100" height="100" viewBox="0 0 100 100" fill="none" style={{ position: "absolute", top: 12, left: 12, opacity: 0.5 }}>
+            <path d="M8 90 Q30 50 70 20 Q82 12 94 8" stroke={LEAF} strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+            <ellipse cx="42" cy="50" rx="10" ry="5" fill={LEAF} opacity="0.65" transform="rotate(-45 42 50)"/>
+            <ellipse cx="62" cy="34" rx="9" ry="4.5" fill={LEAF} opacity="0.6" transform="rotate(-60 62 34)"/>
+            <ellipse cx="26" cy="68" rx="8" ry="4" fill={SAGE} opacity="0.5" transform="rotate(-30 26 68)"/>
+            <ellipse cx="78" cy="22" rx="7" ry="3.5" fill={LEAF} opacity="0.55" transform="rotate(-70 78 22)"/>
+          </svg>
+          <svg width="100" height="100" viewBox="0 0 100 100" fill="none" style={{ position: "absolute", top: 12, right: 12, opacity: 0.5, transform: "scaleX(-1)" }}>
+            <path d="M8 90 Q30 50 70 20 Q82 12 94 8" stroke={LEAF} strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+            <ellipse cx="42" cy="50" rx="10" ry="5" fill={LEAF} opacity="0.65" transform="rotate(-45 42 50)"/>
+            <ellipse cx="62" cy="34" rx="9" ry="4.5" fill={LEAF} opacity="0.6" transform="rotate(-60 62 34)"/>
+            <ellipse cx="26" cy="68" rx="8" ry="4" fill={SAGE} opacity="0.5" transform="rotate(-30 26 68)"/>
+          </svg>
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none" style={{ position: "absolute", bottom: 12, left: 12, opacity: 0.4, transform: "scaleY(-1)" }}>
+            <path d="M8 72 Q25 40 55 18 Q65 10 74 6" stroke={LEAF} strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+            <ellipse cx="34" cy="40" rx="8" ry="4" fill={LEAF} opacity="0.6" transform="rotate(-42 34 40)"/>
+            <ellipse cx="50" cy="26" rx="7" ry="3.5" fill={SAGE} opacity="0.55" transform="rotate(-58 50 26)"/>
+          </svg>
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none" style={{ position: "absolute", bottom: 12, right: 12, opacity: 0.4, transform: "scale(-1,-1)" }}>
+            <path d="M8 72 Q25 40 55 18 Q65 10 74 6" stroke={LEAF} strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+            <ellipse cx="34" cy="40" rx="8" ry="4" fill={LEAF} opacity="0.6" transform="rotate(-42 34 40)"/>
+            <ellipse cx="50" cy="26" rx="7" ry="3.5" fill={SAGE} opacity="0.55" transform="rotate(-58 50 26)"/>
+          </svg>
 
-          {/* Outer gold border frame */}
+          {/* Outer gold border frames */}
           <div className="absolute inset-8 pointer-events-none rounded-sm" style={{ border: "1px solid rgba(200,169,81,0.2)" }} />
           <div className="absolute inset-10 pointer-events-none rounded-sm" style={{ border: "1px solid rgba(200,169,81,0.1)" }} />
 
@@ -58,14 +80,12 @@ export function EnvelopeScreen({ onOpen }: { onOpen: () => void }) {
             className="relative z-10 flex flex-col items-center text-center px-10 py-14"
             style={{ maxWidth: 380, width: "90%" }}
           >
-            {/* Top ornament */}
             <div className="flex items-center gap-3 mb-8 w-full">
               <div className="flex-1 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(200,169,81,0.6))" }} />
               <span style={{ color: "#C8A951", fontSize: 18 }}>✦</span>
               <div className="flex-1 h-px" style={{ background: "linear-gradient(90deg, rgba(200,169,81,0.6), transparent)" }} />
             </div>
 
-            {/* Actual monogram image */}
             <motion.div
               animate={{ scale: [1, 1.04, 1] }}
               transition={{ duration: 4, repeat: Infinity }}
@@ -87,33 +107,47 @@ export function EnvelopeScreen({ onOpen }: { onOpen: () => void }) {
               />
             </motion.div>
 
-            {/* Label */}
             <p className="font-sans text-xs tracking-widest uppercase mb-5" style={{ color: "rgba(200,169,81,0.7)", letterSpacing: "0.35em" }}>
               {weddingConfig.messages.saveTheDate}
             </p>
 
-            {/* Names */}
-            <h1 className="font-script mb-2" style={{ fontSize: "clamp(2.2rem,8vw,3rem)", color: "rgba(250,247,242,0.95)", lineHeight: 1.1 }}>
+            {/* Names in CAC Champagne font */}
+            <h1
+              className="mb-2"
+              style={{
+                fontFamily: "'CAC Champagne', 'Great Vibes', cursive",
+                fontSize: "clamp(2.4rem, 9vw, 3.2rem)",
+                color: "rgba(250,247,242,0.95)",
+                lineHeight: 1.1,
+                letterSpacing: "0.03em",
+              }}
+            >
               {weddingConfig.couple.groomName}
             </h1>
             <p className="font-cormorant italic text-xl mb-2" style={{ color: "rgba(200,169,81,0.8)" }}>&amp;</p>
-            <h1 className="font-script mb-6" style={{ fontSize: "clamp(2.2rem,8vw,3rem)", color: "rgba(250,247,242,0.95)", lineHeight: 1.1 }}>
+            <h1
+              className="mb-6"
+              style={{
+                fontFamily: "'CAC Champagne', 'Great Vibes', cursive",
+                fontSize: "clamp(2.4rem, 9vw, 3.2rem)",
+                color: "rgba(250,247,242,0.95)",
+                lineHeight: 1.1,
+                letterSpacing: "0.03em",
+              }}
+            >
               {weddingConfig.couple.brideName}
             </h1>
 
-            {/* Date */}
             <p className="font-playfair tracking-widest mb-2" style={{ color: "#C8A951", letterSpacing: "0.2em", fontSize: "1.1rem" }}>
               {weddingConfig.wedding.dotDate}
             </p>
 
-            {/* Bottom ornament */}
             <div className="flex items-center gap-3 mt-6 mb-8 w-full">
               <div className="flex-1 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(200,169,81,0.6))" }} />
               <span style={{ color: "#C8A951", fontSize: 18 }}>✦</span>
               <div className="flex-1 h-px" style={{ background: "linear-gradient(90deg, rgba(200,169,81,0.6), transparent)" }} />
             </div>
 
-            {/* Tap cue */}
             <motion.div animate={{ opacity: [0.5, 1, 0.5], y: [0, -4, 0] }} transition={{ duration: 2.2, repeat: Infinity }}
               className="flex flex-col items-center gap-2">
               <div className="px-7 py-2.5 rounded-full font-sans text-xs tracking-widest uppercase"

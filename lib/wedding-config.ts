@@ -43,19 +43,21 @@ export const weddingConfig = {
     googleMapsUrl: "https://maps.google.com/?q=Al-Saj+Convention+Centre+Milky+Way+Hall+Kazhakkoottam+Thiruvananthapuram",
   },
 
-  // ── EVENT SCHEDULE ───────────────────────────────────────
+  // ── ORDER OF CEREMONY ────────────────────────────────────
   events: [
-    { time: "10:00 AM", title: "Opening Prayer",     description: "Welcome and opening prayer service",       icon: "🙏" },
-    { time: "11:00 AM", title: "Wedding Ceremony",   description: "Exchange of vows and rings",               icon: "💍" },
-    { time: "12:30 PM", title: "Prayer and Worship", description: "Praise and worship service",               icon: "✝️" },
-    { time: "1:30 PM",  title: "Wedding Reception",  description: "Lunch reception and celebrations",         icon: "🥂" },
-    { time: "4:00 PM",  title: "Photo Session",      description: "Floral décor & professional photography",  icon: "📸" },
+    { time: "10:15 AM", title: "Guest Arrival & Seating",   description: "Welcome and seating of guests",          icon: "" },
+    { time: "10:30 AM", title: "Opening Prayer",            description: "Welcome and opening prayer service",     icon: "" },
+    { time: "10:40 AM", title: "Prayer & Worship",          description: "Praise and worship service",             icon: "" },
+    { time: "11:00 AM", title: "Holy Matrimony",            description: "Exchange of vows and rings",             icon: "" },
+    { time: "12:15 PM", title: "Closing Prayer",            description: "Closing prayer and blessing",            icon: "" },
+    { time: "12:45 PM", title: "Wedding Reception & Lunch", description: "Reception lunch and celebrations",       icon: "" },
   ],
 
   // ── IMAGES ──────────────────────────────────────────────
   images: {
     couple:        "https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&q=80&w=1200",
     couplePortrait:"https://images.unsplash.com/photo-1537633552985-df8429e8048b?auto=format&fit=crop&q=80&w=800",
+    caricature:    "/caricature.png",
     gallery: [
       "https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&q=80&w=600",
       "https://images.unsplash.com/photo-1529636798458-92182e662485?auto=format&fit=crop&q=80&w=600",
@@ -75,28 +77,32 @@ export const weddingConfig = {
 
   // ── FONTS ───────────────────────────────────────────────
   fonts: {
-    heading: "Playfair Display",
-    script:  "Great Vibes",
-    body:    "Montserrat",
+    heading:   "Playfair Display",
+    script:    "Great Vibes",
+    champagne: "CAC Champagne",
+    body:      "Montserrat",
   },
 
   // ── COLORS ──────────────────────────────────────────────
   colors: {
-    primary:   "#6B2D3E",
-    dark:      "#4A1E2B",
-    accent:    "#C8A951",
-    cream:     "#FAF7F2",
-    text:      "#2C1018",
+    primary:    "#6B2D3E",
+    dark:       "#4A1E2B",
+    accent:     "#C8A951",
+    cream:      "#FAF7F2",
+    text:       "#2C1018",
+    darkGreen:  "#1D4019",
+    leafGreen:  "#2D5A1B",
+    sageGreen:  "#4A7A35",
   },
 
   // ── RSVP ────────────────────────────────────────────────
   rsvp: {
-    enabled:       true,
-    deadline:      "August 15, 2026",
-    contactEmail:  "wedding@example.com",
-    groomPhone:    "+91 98765 43210",
-    bridePhone:    "+91 87654 32109",
-    formspreeId:   "",
+    enabled:      true,
+    deadline:     "August 15, 2026",
+    contactPhone: "9930998098",
+    contactName:  "Reny Varghese",
+    contactEmail: "wedding@example.com",
+    formspreeId:  "",
   },
 
   // ── MESSAGES ────────────────────────────────────────────

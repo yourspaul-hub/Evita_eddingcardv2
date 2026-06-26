@@ -7,6 +7,30 @@ import { LaceBorderBottom } from "@/components/lace-border";
 const GOLD = "#C8A951";
 const GOLD_DIM = "rgba(200,169,81,0.55)";
 const CREAM = "#E8D5A0";
+const LEAF = "#2D5A1B";
+const SAGE = "#4A7A35";
+
+// Small leaf cluster for timeline dots
+function LeafDot() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0, position: "relative", zIndex: 1 }}>
+      <circle cx="7" cy="7" r="5" stroke={GOLD} strokeWidth="1.5" fill="rgba(200,169,81,0.2)"/>
+      <ellipse cx="7" cy="5" rx="2.5" ry="1.5" fill={LEAF} opacity="0.7" transform="rotate(-15 7 5)"/>
+    </svg>
+  );
+}
+
+// Horizontal botanical vine for the section header
+function HeaderVine() {
+  return (
+    <svg width="200" height="24" viewBox="0 0 200 24" fill="none" style={{ opacity: 0.6, margin: "0.8rem auto 0" }}>
+      <path d="M0 12 Q50 4 100 12 Q150 20 200 12" stroke={LEAF} strokeWidth="1.2" strokeLinecap="round" fill="none"/>
+      <ellipse cx="40" cy="8" rx="7" ry="3" fill={LEAF} opacity="0.65" transform="rotate(-18 40 8)"/>
+      <ellipse cx="100" cy="14" rx="6" ry="2.8" fill={SAGE} opacity="0.6" transform="rotate(12 100 14)"/>
+      <ellipse cx="160" cy="8" rx="7" ry="3" fill={LEAF} opacity="0.65" transform="rotate(-22 160 8)"/>
+    </svg>
+  );
+}
 
 export function EventSchedule() {
   return (
@@ -17,6 +41,7 @@ export function EventSchedule() {
         textAlign: "center",
       }}
     >
+      {/* Section header */}
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -47,18 +72,13 @@ export function EventSchedule() {
             margin: 0,
           }}
         >
-          Order of Events
+          Order of Ceremony
         </h2>
-        <div
-          style={{
-            width: "60px",
-            height: "1px",
-            background: `rgba(200,169,81,0.5)`,
-            margin: "1rem auto 0",
-          }}
-        />
+        {/* Green botanical vine under heading */}
+        <HeaderVine />
       </motion.div>
 
+      {/* Timeline */}
       <div
         style={{
           maxWidth: "560px",
@@ -67,6 +87,7 @@ export function EventSchedule() {
           textAlign: "left",
         }}
       >
+        {/* Vertical line — green-tinted */}
         <div
           style={{
             position: "absolute",
@@ -74,10 +95,11 @@ export function EventSchedule() {
             top: 0,
             bottom: 0,
             width: "1px",
-            background: "linear-gradient(to bottom, transparent, rgba(200,169,81,0.25) 10%, rgba(200,169,81,0.25) 90%, transparent)",
+            background: `linear-gradient(to bottom, transparent, rgba(45,90,27,0.35) 10%, rgba(200,169,81,0.2) 50%, rgba(45,90,27,0.35) 90%, transparent)`,
             pointerEvents: "none",
           }}
         />
+
         {weddingConfig.events.map((event, i) => (
           <motion.div
             key={i}
@@ -93,6 +115,7 @@ export function EventSchedule() {
               position: "relative",
             }}
           >
+            {/* Time */}
             <div style={{ width: "72px", flexShrink: 0, textAlign: "right" }}>
               <span
                 style={{
@@ -107,18 +130,11 @@ export function EventSchedule() {
                 {event.time}
               </span>
             </div>
-            <div
-              style={{
-                width: "10px",
-                height: "10px",
-                borderRadius: "50%",
-                border: `1.5px solid ${GOLD}`,
-                background: "rgba(200,169,81,0.2)",
-                flexShrink: 0,
-                position: "relative",
-                zIndex: 1,
-              }}
-            />
+
+            {/* Timeline dot with leaf accent */}
+            <LeafDot />
+
+            {/* Event title */}
             <p
               style={{
                 fontFamily: "'Playfair Display', serif",
@@ -137,6 +153,7 @@ export function EventSchedule() {
         ))}
       </div>
 
+      {/* Venue block */}
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -144,6 +161,15 @@ export function EventSchedule() {
         transition={{ duration: 0.7, delay: 0.3 }}
         style={{ padding: "2.5rem 0 0", textAlign: "center" }}
       >
+        {/* Decorative leaf divider above venue */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.75rem", marginBottom: "1.2rem" }}>
+          <div style={{ height: "1px", width: "40px", background: `linear-gradient(90deg, transparent, rgba(45,90,27,0.5))` }} />
+          <svg width="18" height="18" viewBox="0 0 24 24" fill={LEAF} opacity="0.6">
+            <path d="M12 2 C6 2 2 8 2 14 Q6 10 12 12 Q18 10 22 14 C22 8 18 2 12 2Z"/>
+          </svg>
+          <div style={{ height: "1px", width: "40px", background: `linear-gradient(90deg, rgba(45,90,27,0.5), transparent)` }} />
+        </div>
+
         <p
           style={{
             fontFamily: "'Cormorant Garamond', serif",
