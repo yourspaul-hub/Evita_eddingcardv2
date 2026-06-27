@@ -110,10 +110,8 @@ export function HeroSection() {
           className="relative my-4"
           style={{ width:"clamp(220px,58vw,380px)" }}
         >
-          {/* Green radial glow halo */}
           <div className="absolute inset-0 rounded-full pointer-events-none"
             style={{ background:"radial-gradient(ellipse at center,rgba(45,90,27,0.18) 0%,transparent 70%)", transform:"scale(1.15)", filter:"blur(18px)" }}/>
-          {/* Gold ellipse frame ring */}
           <div className="absolute pointer-events-none"
             style={{ inset:"-4px", borderRadius:"50% / 48%", border:"1px solid rgba(200,169,81,0.22)" }}/>
           <Image
@@ -123,14 +121,12 @@ export function HeroSection() {
             style={{ width:"100%", height:"auto", objectFit:"contain",
               filter:"drop-shadow(0 8px 32px rgba(45,90,27,0.3)) drop-shadow(0 0 18px rgba(200,169,81,0.15))" }}
           />
-          {/* Left flanking leaf sprig */}
           <svg width="40" height="60" viewBox="0 0 40 60" fill="none"
             style={{ position:"absolute", left:"-28px", bottom:"20%", opacity:0.7 }}>
             <path d="M30 55 Q10 30 20 5" stroke={LEAF_GREEN} strokeWidth="1.5" strokeLinecap="round" fill="none"/>
             <ellipse cx="13" cy="20" rx="7" ry="3.5" fill={LEAF_GREEN} opacity="0.85" transform="rotate(30 13 20)"/>
             <ellipse cx="18" cy="38" rx="6" ry="3"   fill={LEAF_GREEN} opacity="0.75" transform="rotate(15 18 38)"/>
           </svg>
-          {/* Right flanking leaf sprig */}
           <svg width="40" height="60" viewBox="0 0 40 60" fill="none"
             style={{ position:"absolute", right:"-28px", bottom:"20%", opacity:0.7, transform:"scaleX(-1)" }}>
             <path d="M30 55 Q10 30 20 5" stroke={LEAF_GREEN} strokeWidth="1.5" strokeLinecap="round" fill="none"/>
@@ -165,6 +161,24 @@ export function HeroSection() {
           <p className="font-sans text-xs mt-1" style={{ color:"rgba(250,247,242,0.4)" }}>
             {weddingConfig.wedding.venueMapCode}
           </p>
+          <a
+            href={weddingConfig.wedding.googleMapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 mt-3 px-5 py-2 rounded-full font-sans text-xs tracking-widest uppercase transition-all duration-200"
+            style={{
+              border: "1px solid rgba(200,169,81,0.55)",
+              color: "#C8A951",
+              letterSpacing: "0.2em",
+              textDecoration: "none",
+              background: "rgba(200,169,81,0.07)",
+            }}
+            onMouseEnter={e => (e.currentTarget.style.background = "rgba(200,169,81,0.18)")}
+            onMouseLeave={e => (e.currentTarget.style.background = "rgba(200,169,81,0.07)")}
+          >
+            <MapPin size={11} />
+            Get Directions
+          </a>
         </motion.div>
 
         {/* Scroll chevron */}

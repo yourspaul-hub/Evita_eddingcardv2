@@ -73,7 +73,7 @@ export function EventSchedule() {
         whileInView={{ opacity:1 }}
         viewport={{ once:true }}
         transition={{ duration:0.7, delay:0.3 }}
-        style={{ padding:"1rem 1.5rem 0", textAlign:"center" }}
+        style={{ padding:"1rem 1.5rem 2.5rem", textAlign:"center" }}
       >
         <PremiumBotanicalBorder variant="dark" style={{ marginBottom:"1.4rem" }}/>
 
@@ -87,6 +87,32 @@ export function EventSchedule() {
         <p style={{ fontFamily:"'Cormorant Garamond',serif", fontWeight:300, fontSize:"clamp(0.78rem,2.6vw,0.9rem)", color:"rgba(232,213,160,0.5)", margin:"0.3rem 0 0", letterSpacing:"0.05em" }}>
           {weddingConfig.wedding.venueAddress}
         </p>
+        <a
+          href={weddingConfig.wedding.googleMapsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "6px",
+            marginTop: "1.1rem",
+            padding: "7px 22px",
+            borderRadius: "999px",
+            border: "1px solid rgba(200,169,81,0.55)",
+            color: "#C8A951",
+            fontFamily: "'Montserrat','Helvetica Neue',sans-serif",
+            fontSize: "0.68rem",
+            letterSpacing: "0.2em",
+            textTransform: "uppercase",
+            textDecoration: "none",
+            background: "rgba(200,169,81,0.07)",
+          }}
+        >
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+          </svg>
+          Get Directions
+        </a>
       </motion.div>
 
       <LaceBorderBottom fromColor="#251018" toColor="#FAF7F2" height={72} />
