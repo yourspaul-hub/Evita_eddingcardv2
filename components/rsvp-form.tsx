@@ -35,12 +35,7 @@ const emptyForm: FormData = {
 
 const FOOD_OPTIONS = ["Vegetarian", "Non-Vegetarian", "Gluten-Free", "Halal"];
 
-// Shared botanical corner SVG (same design as existing component)
-function BotanicalCorner({
-  style,
-}: {
-  style?: React.CSSProperties;
-}) {
+function BotanicalCorner({ style }: { style?: React.CSSProperties }) {
   return (
     <svg
       width="50"
@@ -78,7 +73,6 @@ function BotanicalCorner({
   );
 }
 
-// Diamond divider
 function GoldDivider() {
   return (
     <div className="flex items-center justify-center gap-2 my-6">
@@ -100,7 +94,6 @@ function GoldDivider() {
   );
 }
 
-// Styled input wrapper
 function FieldLabel({
   children,
   required,
@@ -112,7 +105,7 @@ function FieldLabel({
     <label
       className="block text-xs tracking-widest uppercase mb-2"
       style={{
-        fontFamily: "'Cormorant Garamond', 'Cormorant', serif",
+        fontFamily: "'Cormorant Garamond','Cormorant',serif",
         color: BURGUNDY,
         letterSpacing: "0.14em",
         fontWeight: 600,
@@ -133,7 +126,7 @@ const inputStyle: React.CSSProperties = {
   background: "#FFFDF9",
   border: `1px solid ${GOLD}60`,
   color: BURGUNDY,
-  fontFamily: "'Cormorant Garamond', 'Cormorant', serif",
+  fontFamily: "'Cormorant Garamond','Cormorant',serif",
   fontSize: "1rem",
   outline: "none",
   transition: "border-color 0.2s",
@@ -183,11 +176,11 @@ export function RSVPForm() {
       className="relative py-20 px-6"
       style={{ background: "linear-gradient(160deg, #FAF7F2 0%, #F5EFE6 60%, #FAF7F2 100%)" }}
     >
-      {/* ── Top border ── */}
+      {/* Top border */}
       <PremiumBotanicalBorder variant="light" style={{ marginBottom: "2.5rem" }} />
 
       <div className="max-w-xl mx-auto">
-        {/* ── Section header ── */}
+        {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -218,14 +211,17 @@ export function RSVPForm() {
           </h2>
           <p
             className="italic text-base"
-            style={{ fontFamily: "'Cormorant Garamond','Cormorant',serif", color: "rgba(107,45,62,0.6)" }}
+            style={{
+              fontFamily: "'Cormorant Garamond','Cormorant',serif",
+              color: "rgba(107,45,62,0.6)",
+            }}
           >
             Please respond by{" "}
             <strong style={{ color: GOLD }}>{weddingConfig.rsvp.deadline}</strong>
           </p>
         </motion.div>
 
-        {/* ── Card ── */}
+        {/* Card */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -234,10 +230,11 @@ export function RSVPForm() {
           className="relative rounded-2xl overflow-hidden"
           style={{
             background: "rgba(255,255,255,0.9)",
-            boxShadow: "0 4px 48px rgba(74,30,43,0.09), inset 0 1px 0 rgba(200,169,81,0.15)",
+            boxShadow:
+              "0 4px 48px rgba(74,30,43,0.09), inset 0 1px 0 rgba(200,169,81,0.15)",
           }}
         >
-          {/* Gold ornamental frame */}
+          {/* Gold ornamental frame — outer */}
           <div
             style={{
               position: "absolute",
@@ -248,6 +245,7 @@ export function RSVPForm() {
               zIndex: 1,
             }}
           />
+          {/* Gold ornamental frame — inner */}
           <div
             style={{
               position: "absolute",
@@ -265,7 +263,7 @@ export function RSVPForm() {
           <BotanicalCorner style={{ bottom: 10, left: 10, transform: "scaleY(-1)" }} />
           <BotanicalCorner style={{ bottom: 10, right: 10, transform: "scale(-1,-1)" }} />
 
-          {/* ── Inner content ── */}
+          {/* Inner content */}
           <div style={{ position: "relative", zIndex: 3 }}>
 
             {/* Default state: invite text + button */}
@@ -280,7 +278,8 @@ export function RSVPForm() {
                     margin: "0 auto 1.5rem",
                   }}
                 >
-                  We joyfully request the honour of your presence. Please let us know if you&apos;ll be joining us for this cherished celebration.
+                  We joyfully request the honour of your presence. Please let us
+                  know if you&apos;ll be joining us for this cherished celebration.
                 </p>
 
                 <button
@@ -297,6 +296,7 @@ export function RSVPForm() {
                     letterSpacing: "0.16em",
                     textTransform: "uppercase",
                     boxShadow: isExpanded ? "none" : "0 4px 20px rgba(107,45,62,0.25)",
+                    cursor: "pointer",
                   }}
                 >
                   {isExpanded ? "Close" : "RSVP Now"}
@@ -310,7 +310,7 @@ export function RSVPForm() {
               </div>
             )}
 
-            {/* ── Collapsible form ── */}
+            {/* Collapsible form */}
             <AnimatePresence>
               {isExpanded && !isSubmitted && (
                 <motion.div
@@ -332,7 +332,9 @@ export function RSVPForm() {
                         type="text"
                         required
                         value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, name: e.target.value })
+                        }
                         placeholder="Your full name"
                         style={inputStyle}
                         onFocus={(e) => (e.target.style.borderColor = GOLD)}
@@ -346,7 +348,9 @@ export function RSVPForm() {
                       <input
                         type="tel"
                         value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, phone: e.target.value })
+                        }
                         placeholder="+91 XXXXX XXXXX"
                         style={inputStyle}
                         onFocus={(e) => (e.target.style.borderColor = GOLD)}
@@ -361,7 +365,9 @@ export function RSVPForm() {
                         <select
                           required
                           value={formData.guests}
-                          onChange={(e) => setFormData({ ...formData, guests: e.target.value })}
+                          onChange={(e) =>
+                            setFormData({ ...formData, guests: e.target.value })
+                          }
                           style={{
                             ...inputStyle,
                             appearance: "none",
@@ -405,12 +411,17 @@ export function RSVPForm() {
                             <button
                               key={val}
                               type="button"
-                              onClick={() => setFormData({ ...formData, accommodation: val })}
+                              onClick={() =>
+                                setFormData({ ...formData, accommodation: val })
+                              }
                               className="flex items-center gap-2"
                               style={{
-                                fontFamily: "'Cormorant Garamond','Cormorant',serif",
+                                fontFamily:
+                                  "'Cormorant Garamond','Cormorant',serif",
                                 fontSize: "1rem",
-                                color: active ? BURGUNDY : "rgba(107,45,62,0.5)",
+                                color: active
+                                  ? BURGUNDY
+                                  : "rgba(107,45,62,0.5)",
                                 background: "none",
                                 border: "none",
                                 cursor: "pointer",
@@ -460,20 +471,31 @@ export function RSVPForm() {
                             transition={{ duration: 0.3 }}
                             className="mt-4 p-5 rounded-xl"
                             style={{
-                              background: "linear-gradient(135deg, #F5EFE6, #FAF7F2)",
+                              background:
+                                "linear-gradient(135deg, #F5EFE6, #FAF7F2)",
                               border: `1px solid ${GOLD}30`,
                             }}
                           >
                             <div className="flex items-start gap-3 mb-3">
-                              <Hotel size={18} style={{ color: LEAF, flexShrink: 0, marginTop: 2 }} />
+                              <Hotel
+                                size={18}
+                                style={{
+                                  color: LEAF,
+                                  flexShrink: 0,
+                                  marginTop: 2,
+                                }}
+                              />
                               <p
                                 className="text-sm leading-relaxed"
                                 style={{
-                                  fontFamily: "'Cormorant Garamond','Cormorant',serif",
+                                  fontFamily:
+                                    "'Cormorant Garamond','Cormorant',serif",
                                   color: "rgba(107,45,62,0.75)",
                                 }}
                               >
-                                Several comfortable hotels are located within a short distance of Al-Saj Convention Centre. Browse options on Google Maps:
+                                Several comfortable hotels are located within a
+                                short distance of Al-Saj Convention Centre.
+                                Browse options on Google Maps:
                               </p>
                             </div>
                             <a
@@ -484,7 +506,8 @@ export function RSVPForm() {
                               style={{
                                 background: `linear-gradient(135deg, ${LEAF}, ${SAGE})`,
                                 color: CREAM,
-                                fontFamily: "'Cormorant Garamond','Cormorant',serif",
+                                fontFamily:
+                                  "'Cormorant Garamond','Cormorant',serif",
                                 fontSize: "0.88rem",
                                 letterSpacing: "0.12em",
                                 textTransform: "uppercase",
@@ -525,8 +548,11 @@ export function RSVPForm() {
                                   ? `linear-gradient(135deg, ${BURGUNDY}15, ${BURGUNDY}25)`
                                   : "#FFFDF9",
                                 border: `1.5px solid ${selected ? GOLD : `${GOLD}45`}`,
-                                color: selected ? BURGUNDY : "rgba(107,45,62,0.5)",
-                                fontFamily: "'Cormorant Garamond','Cormorant',serif",
+                                color: selected
+                                  ? BURGUNDY
+                                  : "rgba(107,45,62,0.5)",
+                                fontFamily:
+                                  "'Cormorant Garamond','Cormorant',serif",
                                 fontSize: "0.95rem",
                                 fontWeight: selected ? 600 : 400,
                                 cursor: "pointer",
@@ -538,7 +564,7 @@ export function RSVPForm() {
                               }}
                             >
                               <span style={{ color: GOLD, fontSize: "0.75rem" }}>
-                                {selected ? "✦" : "◉"}
+                                {selected ? "◆" : "◇"}
                               </span>
                               {pref}
                             </button>
@@ -553,7 +579,10 @@ export function RSVPForm() {
                       <textarea
                         value={formData.specialRequests}
                         onChange={(e) =>
-                          setFormData({ ...formData, specialRequests: e.target.value })
+                          setFormData({
+                            ...formData,
+                            specialRequests: e.target.value,
+                          })
                         }
                         placeholder="Any dietary requirements, mobility needs, or requests we should know about…"
                         rows={3}
@@ -563,7 +592,9 @@ export function RSVPForm() {
                           lineHeight: 1.6,
                         }}
                         onFocus={(e) => (e.target.style.borderColor = GOLD)}
-                        onBlur={(e) => (e.target.style.borderColor = `${GOLD}60`)}
+                        onBlur={(e) =>
+                          (e.target.style.borderColor = `${GOLD}60`)
+                        }
                       />
                     </div>
 
@@ -572,7 +603,8 @@ export function RSVPForm() {
                       <p
                         className="text-center text-sm"
                         style={{
-                          fontFamily: "'Cormorant Garamond','Cormorant',serif",
+                          fontFamily:
+                            "'Cormorant Garamond','Cormorant',serif",
                           color: "#C0392B",
                         }}
                       >
@@ -592,7 +624,8 @@ export function RSVPForm() {
                             : `linear-gradient(135deg, #6B2D3E, ${BURGUNDY})`,
                           color: GOLD,
                           border: "none",
-                          fontFamily: "'Cormorant Garamond','Cormorant',serif",
+                          fontFamily:
+                            "'Cormorant Garamond','Cormorant',serif",
                           fontSize: "1rem",
                           letterSpacing: "0.16em",
                           textTransform: "uppercase",
@@ -604,6 +637,7 @@ export function RSVPForm() {
                       >
                         {isSubmitting ? (
                           "Sending…"
+                        ) : (
                           <>
                             <Send size={15} />
                             Confirm Attendance
@@ -613,7 +647,8 @@ export function RSVPForm() {
                       <p
                         className="italic text-xs mt-3"
                         style={{
-                          fontFamily: "'Cormorant Garamond','Cormorant',serif",
+                          fontFamily:
+                            "'Cormorant Garamond','Cormorant',serif",
                           color: "rgba(107,45,62,0.45)",
                         }}
                       >
@@ -625,7 +660,7 @@ export function RSVPForm() {
               )}
             </AnimatePresence>
 
-            {/* ── Thank You state ── */}
+            {/* Thank You state */}
             {isSubmitted && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -667,13 +702,14 @@ export function RSVPForm() {
                   }}
                 >
                   We&apos;ve received your RSVP,{" "}
-                  <strong style={{ color: GOLD }}>{formData.name}</strong>.<br />
+                  <strong style={{ color: GOLD }}>{formData.name}</strong>.
+                  <br />
                   We look forward to celebrating this beautiful day with you!
                 </p>
 
                 <div className="flex items-center justify-center gap-3 mt-6">
                   <div style={{ width: 32, height: 1, background: GOLD }} />
-                  <span style={{ color: GOLD, fontSize: "1rem" }}>♦</span>
+                  <span style={{ color: GOLD, fontSize: "1rem" }}>♥</span>
                   <div style={{ width: 32, height: 1, background: GOLD }} />
                 </div>
 
@@ -691,7 +727,7 @@ export function RSVPForm() {
           </div>
         </motion.div>
 
-        {/* ── Closing note ── */}
+        {/* Closing note */}
         <motion.p
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -707,7 +743,7 @@ export function RSVPForm() {
         </motion.p>
       </div>
 
-      {/* ── Bottom border ── */}
+      {/* Bottom border */}
       <PremiumBotanicalBorder variant="light" style={{ marginTop: "2.5rem" }} />
     </section>
   );
