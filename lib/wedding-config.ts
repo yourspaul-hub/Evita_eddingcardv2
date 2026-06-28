@@ -98,7 +98,7 @@ export const weddingConfig = {
   // ── RSVP ────────────────────────────────────────────────
   rsvp: {
     enabled:      true,
-    deadline:     "August 15, 2026",
+    deadline:     "July 25, 2026",
     contactPhone: "9930998098",
     contactName:  "Reny Varghese",
     contactEmail: "wedding@example.com",
