@@ -7,10 +7,11 @@ import { PremiumBotanicalBorder } from "@/components/premium-botanical-border";
 import { weddingConfig } from "@/lib/wedding-config";
 
 const LEAF = "#2D5A1B";
-const SAGE = "#4A7A35";
 const GOLD = "#C8A951";
 const BURGUNDY = "#4A1E2B";
 const CREAM = "#FAF7F2";
+
+const WEB3FORMS_KEY = "1dbd3504-3b35-4b90-b947-e8821527c0b9";
 
 const NEARBY_HOTELS_URL =
   "https://www.google.com/maps/search/hotels+near+Al-Saj+Convention+Centre+Kazhakkoottam+Thiruvananthapuram";
@@ -35,101 +36,48 @@ const emptyForm: FormData = {
 
 const FOOD_OPTIONS = ["Vegetarian", "Non-Vegetarian", "Gluten-Free", "Halal"];
 
-function BotanicalCorner({ style }: { style?: React.CSSProperties }) {
+function BotanicalCorner({ flip = false }: { flip?: boolean }) {
   return (
     <svg
-      width="50"
-      height="50"
-      viewBox="0 0 50 50"
-      fill="none"
-      style={{ position: "absolute", opacity: 0.7, zIndex: 2, pointerEvents: "none", ...style }}
+      width="56" height="56" viewBox="0 0 56 56" fill="none"
+      style={{ transform: flip ? "scale(-1,1)" : undefined, opacity: 0.55 }}
     >
-      <path
-        d="M2 48 Q18 28 36 10 Q42 4 48 2"
-        stroke={LEAF}
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        fill="none"
-      />
-      <ellipse
-        cx="22"
-        cy="28"
-        rx="7"
-        ry="3"
-        fill={LEAF}
-        transform="rotate(-45 22 28)"
-      />
-      <ellipse
-        cx="34"
-        cy="16"
-        rx="6"
-        ry="2.5"
-        fill={SAGE}
-        transform="rotate(-55 34 16)"
-      />
-      <circle cx="4" cy="46" r="3" fill={GOLD} opacity="0.9" />
-      <circle cx="4" cy="46" r="1.5" fill="#E2C97A" />
+      <path d="M4 52 Q8 32 28 28 Q32 8 52 4" stroke={LEAF} strokeWidth="1.2" strokeLinecap="round" fill="none" />
+      <ellipse cx="18" cy="36" rx="6" ry="3" fill={LEAF} opacity="0.5" transform="rotate(-40 18 36)" />
+      <ellipse cx="34" cy="18" rx="6" ry="3" fill={LEAF} opacity="0.5" transform="rotate(-50 34 18)" />
+      <ellipse cx="10" cy="46" rx="4" ry="2" fill={LEAF} opacity="0.4" transform="rotate(-20 10 46)" />
+      <ellipse cx="46" cy="10" rx="4" ry="2" fill={LEAF} opacity="0.4" transform="rotate(-70 46 10)" />
     </svg>
   );
 }
 
 function GoldDivider() {
   return (
-    <div className="flex items-center justify-center gap-2 my-6">
-      <div
-        className="h-px flex-1"
-        style={{ background: `linear-gradient(90deg, transparent, ${GOLD})` }}
-      />
-      <svg width="12" height="12" viewBox="0 0 12 12">
-        <path
-          d="M6 0 L7.5 4.5 L12 6 L7.5 7.5 L6 12 L4.5 7.5 L0 6 L4.5 4.5 Z"
-          fill={GOLD}
-        />
-      </svg>
-      <div
-        className="h-px flex-1"
-        style={{ background: `linear-gradient(90deg, ${GOLD}, transparent)` }}
-      />
+    <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "16px 0" }}>
+      <div style={{ flex: 1, height: 1, background: `linear-gradient(to right, transparent, ${GOLD})` }} />
+      <span style={{ color: GOLD, fontSize: 10 }}>â—†</span>
+      <div style={{ flex: 1, height: 1, background: `linear-gradient(to left, transparent, ${GOLD})` }} />
     </div>
   );
 }
 
-function FieldLabel({
-  children,
-  required,
-}: {
-  children: React.ReactNode;
-  required?: boolean;
-}) {
+function FieldLabel({ children }: { children: React.ReactNode }) {
   return (
-    <label
-      className="block text-xs tracking-widest uppercase mb-2"
-      style={{
-        fontFamily: "'Cormorant Garamond','Cormorant',serif",
-        color: BURGUNDY,
-        letterSpacing: "0.14em",
-        fontWeight: 600,
-      }}
-    >
+    <label style={{
+      display: "block", marginBottom: 6, fontSize: 10,
+      letterSpacing: "0.18em", textTransform: "uppercase",
+      color: "rgba(74,30,43,0.6)", fontFamily: "sans-serif",
+    }}>
       {children}
-      {required && (
-        <span style={{ color: GOLD, marginLeft: 4 }}>*</span>
-      )}
     </label>
   );
 }
 
 const inputStyle: React.CSSProperties = {
-  width: "100%",
-  padding: "12px 16px",
-  borderRadius: 8,
-  background: "#FFFDF9",
-  border: `1px solid ${GOLD}60`,
-  color: BURGUNDY,
-  fontFamily: "'Cormorant Garamond','Cormorant',serif",
-  fontSize: "1rem",
-  outline: "none",
-  transition: "border-color 0.2s",
+  width: "100%", padding: "10px 14px", borderRadius: 6,
+  border: `1px solid ${GOLD}55`, background: "#FFFDF9",
+  color: BURGUNDY, fontSize: 14, fontFamily: "Georgia, serif",
+  outline: "none", boxSizing: "border-box",
 };
 
 export function RSVPForm() {
@@ -141,12 +89,12 @@ export function RSVPForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const toggleFood = (pref: string) => {
+  const toggleFood = (option: string) => {
     setFormData((prev) => ({
       ...prev,
-      foodPreferences: prev.foodPreferences.includes(pref)
-        ? prev.foodPreferences.filter((p) => p !== pref)
-        : [...prev.foodPreferences, pref],
+      foodPreferences: prev.foodPreferences.includes(option)
+        ? prev.foodPreferences.filter((f) => f !== option)
+        : [...prev.foodPreferences, option],
     }));
   };
 
@@ -154,597 +102,291 @@ export function RSVPForm() {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitError(null);
+
     try {
-      const res = await fetch("/api/rsvp", {
+      const body = {
+        access_key: WEB3FORMS_KEY,
+        subject: `ğŸ’Œ New RSVP â€” ${formData.name} (${formData.guests} guest${formData.guests === "1" ? "" : "s"})`,
+        from_name: "Evita & Roshan Wedding",
+        Name: formData.name,
+        Phone: formData.phone || "â€”",
+        "Number of Guests": formData.guests,
+        "Accommodation Needed": formData.accommodation === "yes" ? "Yes â€” needs hotel help" : "No â€” sorted",
+        "Food Preferences": formData.foodPreferences.length
+          ? formData.foodPreferences.join(", ")
+          : "None specified",
+        "Special Requests": formData.specialRequests || "â€”",
+        botcheck: "",
+      };
+
+      const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(body),
       });
-      if (!res.ok) throw new Error("Failed");
-      setIsSubmitted(true);
+
+      const json = await res.json();
+      if (json.success) {
+        setIsSubmitted(true);
+      } else {
+        setSubmitError("Something went wrong. Please try again.");
+      }
     } catch {
-      setSubmitError(
-        "Something went wrong. Please try again or contact us at 2wearthehope@gmail.com"
-      );
+      setSubmitError("Network error. Please check your connection.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <section
-      className="relative py-20 px-6"
-      style={{ background: "linear-gradient(160deg, #FAF7F2 0%, #F5EFE6 60%, #FAF7F2 100%)" }}
-    >
-      {/* Top border */}
-      <PremiumBotanicalBorder variant="light" style={{ marginBottom: "2.5rem" }} />
-
+    <section className="py-20 px-6" style={{ background: CREAM }}>
       <div className="max-w-xl mx-auto">
-        {/* Section header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="text-center mb-8"
-        >
-          <p
-            className="text-xs tracking-widest uppercase mb-3"
-            style={{
-              fontFamily: "'Cormorant Garamond','Cormorant',serif",
-              color: `rgba(107,45,62,0.55)`,
-              letterSpacing: "0.35em",
-            }}
-          >
+        {/* Top botanical border */}
+        <PremiumBotanicalBorder />
+
+        {/* Header */}
+        <div style={{ textAlign: "center", padding: "20px 0 12px" }}>
+          <p style={{
+            fontSize: 10, letterSpacing: "0.35em", textTransform: "uppercase",
+            color: "rgba(107,45,62,0.5)", marginBottom: 6, fontFamily: "sans-serif",
+          }}>
             Kindly Reply
           </p>
-          <h2
-            style={{
-              fontFamily: "'CAC Champagne','Great Vibes',cursive",
-              fontSize: "clamp(2.2rem,8vw,3.6rem)",
-              color: BURGUNDY,
-              lineHeight: 1.1,
-              marginBottom: "0.3rem",
-            }}
-          >
+          <h2 style={{ fontFamily: "'CAC Champagne', cursive", color: BURGUNDY, fontSize: 38, margin: 0 }}>
             RSVP
           </h2>
-          <p
-            className="italic text-base"
-            style={{
-              fontFamily: "'Cormorant Garamond','Cormorant',serif",
-              color: "rgba(107,45,62,0.6)",
-            }}
-          >
-            Please respond by{" "}
-            <strong style={{ color: GOLD }}>{weddingConfig.rsvp.deadline}</strong>
-          </p>
-        </motion.div>
+        </div>
+
+        <GoldDivider />
 
         {/* Card */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.12 }}
-          className="relative rounded-2xl overflow-hidden"
-          style={{
-            background: "rgba(255,255,255,0.9)",
-            boxShadow:
-              "0 4px 48px rgba(74,30,43,0.09), inset 0 1px 0 rgba(200,169,81,0.15)",
-          }}
-        >
-          {/* Gold ornamental frame â€” outer */}
-          <div
-            style={{
-              position: "absolute",
-              inset: "10px",
-              border: `1.5px solid rgba(200,169,81,0.45)`,
-              borderRadius: "14px",
-              pointerEvents: "none",
-              zIndex: 1,
-            }}
-          />
-          {/* Gold ornamental frame â€” inner */}
-          <div
-            style={{
-              position: "absolute",
-              inset: "14px",
-              border: `0.5px solid rgba(200,169,81,0.22)`,
-              borderRadius: "10px",
-              pointerEvents: "none",
-              zIndex: 1,
-            }}
-          />
+        <div style={{
+          border: `1px solid ${GOLD}66`,
+          borderRadius: 4,
+          padding: 28,
+          position: "relative",
+          background: "#FFFDF9",
+        }}>
+          {/* Corners */}
+          <div style={{ position: "absolute", top: 8, left: 8 }}><BotanicalCorner /></div>
+          <div style={{ position: "absolute", top: 8, right: 8 }}><BotanicalCorner flip /></div>
 
-          {/* Botanical corners */}
-          <BotanicalCorner style={{ top: 10, left: 10 }} />
-          <BotanicalCorner style={{ top: 10, right: 10, transform: "scaleX(-1)" }} />
-          <BotanicalCorner style={{ bottom: 10, left: 10, transform: "scaleY(-1)" }} />
-          <BotanicalCorner style={{ bottom: 10, right: 10, transform: "scale(-1,-1)" }} />
-
-          {/* Inner content */}
-          <div style={{ position: "relative", zIndex: 3 }}>
-
-            {/* Default state: invite text + button */}
-            {!isSubmitted && (
-              <div className="px-10 pt-10 pb-6 text-center">
-                <p
-                  className="text-base italic leading-relaxed mb-6"
-                  style={{
-                    fontFamily: "'Cormorant Garamond','Cormorant',serif",
-                    color: "rgba(107,45,62,0.65)",
-                    maxWidth: 380,
-                    margin: "0 auto 1.5rem",
-                  }}
-                >
-                  We joyfully request the honour of your presence. Please let us
-                  know if you&apos;ll be joining us for this cherished celebration.
+          {isSubmitted ? (
+            /* â”€â”€ Thank You â”€â”€ */
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              style={{ textAlign: "center", padding: "24px 0" }}
+            >
+              <CheckCircle size={48} color={GOLD} style={{ margin: "0 auto 16px" }} />
+              <h3 style={{
+                fontFamily: "'CAC Champagne', cursive", color: BURGUNDY,
+                fontSize: 28, margin: "0 0 8px",
+              }}>
+                Thank You, {formData.name}!
+              </h3>
+              <p style={{
+                color: "rgba(74,30,43,0.7)", fontFamily: "Georgia, serif",
+                fontSize: 14, margin: 0,
+              }}>
+                We've received your RSVP and can't wait to celebrate with you.
+              </p>
+            </motion.div>
+          ) : (
+            <>
+              {/* Invite text + toggle button */}
+              <div style={{ textAlign: "center", paddingTop: 16, paddingBottom: 8 }}>
+                <p style={{
+                  fontFamily: "Georgia, serif", color: "rgba(74,30,43,0.75)",
+                  fontSize: 14, lineHeight: 1.7, marginBottom: 20,
+                }}>
+                  We joyfully invite you to celebrate with us.<br />
+                  Please let us know if you'll be joining.
                 </p>
 
                 <button
                   onClick={() => setIsExpanded((v) => !v)}
-                  className="inline-flex items-center gap-2 px-8 py-3 rounded-full transition-all duration-300"
                   style={{
-                    background: isExpanded
-                      ? "transparent"
-                      : `linear-gradient(135deg, #6B2D3E, ${BURGUNDY})`,
+                    background: isExpanded ? "transparent" : BURGUNDY,
                     color: isExpanded ? BURGUNDY : GOLD,
-                    border: `1.5px solid ${isExpanded ? GOLD : "transparent"}`,
-                    fontFamily: "'Cormorant Garamond','Cormorant',serif",
-                    fontSize: "0.95rem",
-                    letterSpacing: "0.16em",
+                    border: `1px solid ${BURGUNDY}`,
+                    borderRadius: 3,
+                    padding: "10px 28px",
+                    fontSize: 11,
+                    letterSpacing: "0.2em",
                     textTransform: "uppercase",
-                    boxShadow: isExpanded ? "none" : "0 4px 20px rgba(107,45,62,0.25)",
+                    fontFamily: "sans-serif",
                     cursor: "pointer",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 8,
                   }}
                 >
                   {isExpanded ? "Close" : "RSVP Now"}
                   <motion.span
                     animate={{ rotate: isExpanded ? 180 : 0 }}
-                    transition={{ duration: 0.3 }}
+                    transition={{ duration: 0.25 }}
+                    style={{ display: "flex" }}
                   >
-                    <ChevronDown size={16} />
+                    <ChevronDown size={14} />
                   </motion.span>
                 </button>
               </div>
-            )}
 
-            {/* Collapsible form */}
-            <AnimatePresence>
-              {isExpanded && !isSubmitted && (
-                <motion.div
-                  key="form"
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.45, ease: [0.4, 0, 0.2, 1] }}
-                  style={{ overflow: "hidden" }}
-                >
-                  <GoldDivider />
+              {/* Collapsible form */}
+              <AnimatePresence initial={false}>
+                {isExpanded && (
+                  <motion.div
+                    key="form"
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.35, ease: "easeInOut" }}
+                    style={{ overflow: "hidden" }}
+                  >
+                    <GoldDivider />
+                    <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 18 }}>
 
-                  <form onSubmit={handleSubmit} className="px-10 pb-10 space-y-6">
-
-                    {/* Full Name */}
-                    <div>
-                      <FieldLabel required>Full Name</FieldLabel>
-                      <input
-                        type="text"
-                        required
-                        value={formData.name}
-                        onChange={(e) =>
-                          setFormData({ ...formData, name: e.target.value })
-                        }
-                        placeholder="Your full name"
-                        style={inputStyle}
-                        onFocus={(e) => (e.target.style.borderColor = GOLD)}
-                        onBlur={(e) => (e.target.style.borderColor = `${GOLD}60`)}
-                      />
-                    </div>
-
-                    {/* Phone */}
-                    <div>
-                      <FieldLabel>Phone Number</FieldLabel>
-                      <input
-                        type="tel"
-                        value={formData.phone}
-                        onChange={(e) =>
-                          setFormData({ ...formData, phone: e.target.value })
-                        }
-                        placeholder="+91 XXXXX XXXXX"
-                        style={inputStyle}
-                        onFocus={(e) => (e.target.style.borderColor = GOLD)}
-                        onBlur={(e) => (e.target.style.borderColor = `${GOLD}60`)}
-                      />
-                    </div>
-
-                    {/* Number of Guests */}
-                    <div>
-                      <FieldLabel required>Number of Guests</FieldLabel>
-                      <div style={{ position: "relative" }}>
-                        <select
-                          required
-                          value={formData.guests}
-                          onChange={(e) =>
-                            setFormData({ ...formData, guests: e.target.value })
-                          }
-                          style={{
-                            ...inputStyle,
-                            appearance: "none",
-                            cursor: "pointer",
-                            paddingRight: "40px",
-                          }}
-                          onFocus={(e) => (e.target.style.borderColor = GOLD)}
-                          onBlur={(e) => (e.target.style.borderColor = `${GOLD}60`)}
-                        >
-                          {[1, 2, 3, 4, 5].map((n) => (
-                            <option key={n} value={n}>
-                              {n} {n === 1 ? "Guest" : "Guests"}
-                            </option>
-                          ))}
-                          <option value="6+">6+ Guests</option>
-                        </select>
-                        <ChevronDown
-                          size={16}
-                          style={{
-                            position: "absolute",
-                            right: 14,
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                            color: GOLD,
-                            pointerEvents: "none",
-                          }}
+                      {/* Name */}
+                      <div>
+                        <FieldLabel>Full Name *</FieldLabel>
+                        <input
+                          required style={inputStyle} value={formData.name}
+                          onChange={(e) => setFormData((p) => ({ ...p, name: e.target.value }))}
+                          placeholder="Your full name"
                         />
                       </div>
-                    </div>
 
-                    {/* Accommodation */}
-                    <div>
-                      <FieldLabel>Accommodation Needed?</FieldLabel>
-                      <div className="flex gap-6">
-                        {[
-                          { val: "no", label: "No, I'm sorted" },
-                          { val: "yes", label: "Yes, I need help" },
-                        ].map(({ val, label }) => {
-                          const active = formData.accommodation === val;
-                          return (
+                      {/* Phone */}
+                      <div>
+                        <FieldLabel>Phone Number</FieldLabel>
+                        <input
+                          type="tel" style={inputStyle} value={formData.phone}
+                          onChange={(e) => setFormData((p) => ({ ...p, phone: e.target.value }))}
+                          placeholder="+91 00000 00000"
+                        />
+                      </div>
+
+                      {/* Guests */}
+                      <div>
+                        <FieldLabel>Number of Guests *</FieldLabel>
+                        <select
+                          required style={{ ...inputStyle, cursor: "pointer" }}
+                          value={formData.guests}
+                          onChange={(e) => setFormData((p) => ({ ...p, guests: e.target.value }))}
+                        >
+                          {[1, 2, 3, 4, 5, 6].map((n) => (
+                            <option key={n} value={String(n)}>
+                              {n} {n === 1 ? "guest" : "guests"}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      {/* Accommodation */}
+                      <div>
+                        <FieldLabel>Do you need accommodation assistance?</FieldLabel>
+                        <div style={{ display: "flex", gap: 10 }}>
+                          {[
+                            { val: "yes", label: "Yes please" },
+                            { val: "no", label: "No, I'm sorted" },
+                          ].map(({ val, label }) => (
                             <button
-                              key={val}
-                              type="button"
-                              onClick={() =>
-                                setFormData({ ...formData, accommodation: val })
-                              }
-                              className="flex items-center gap-2"
+                              key={val} type="button"
+                              onClick={() => setFormData((p) => ({ ...p, accommodation: val }))}
                               style={{
-                                fontFamily:
-                                  "'Cormorant Garamond','Cormorant',serif",
-                                fontSize: "1rem",
-                                color: active
-                                  ? BURGUNDY
-                                  : "rgba(107,45,62,0.5)",
-                                background: "none",
-                                border: "none",
-                                cursor: "pointer",
-                                padding: 0,
+                                flex: 1, padding: "9px 0", borderRadius: 4, fontSize: 12,
+                                fontFamily: "sans-serif", cursor: "pointer",
+                                border: `1px solid ${formData.accommodation === val ? GOLD : GOLD + "55"}`,
+                                background: formData.accommodation === val ? BURGUNDY : "transparent",
+                                color: formData.accommodation === val ? GOLD : "rgba(74,30,43,0.65)",
                               }}
                             >
-                              <span
-                                style={{
-                                  display: "inline-flex",
-                                  width: 20,
-                                  height: 20,
-                                  borderRadius: "50%",
-                                  border: `1.5px solid ${active ? GOLD : `${GOLD}60`}`,
-                                  background: active ? GOLD : "transparent",
-                                  alignItems: "center",
-                                  justifyContent: "center",
-                                  transition: "all 0.2s",
-                                  flexShrink: 0,
-                                }}
-                              >
-                                {active && (
-                                  <span
-                                    style={{
-                                      width: 8,
-                                      height: 8,
-                                      borderRadius: "50%",
-                                      background: "#fff",
-                                      display: "block",
-                                    }}
-                                  />
-                                )}
-                              </span>
                               {label}
                             </button>
-                          );
-                        })}
+                          ))}
+                        </div>
+
+                        {/* Hotel panel */}
+                        <AnimatePresence>
+                          {formData.accommodation === "yes" && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.25 }}
+                              style={{ overflow: "hidden" }}
+                            >
+                              <div style={{
+                                marginTop: 10, padding: "12px 14px", borderRadius: 6,
+                                border: `1px solid ${GOLD}44`, background: `${GOLD}0A`,
+                                display: "flex", alignItems: "flex-start", gap: 10,
+                              }}>
+                                <Hotel size={16} color={GOLD} style={{ marginTop: 2, flexShrink: 0 }} />
+                                <div>
+                                  <p style={{
+                                    margin: "0 0 6px", fontSize: 12,
+                                    color: BURGUNDY, fontFamily: "Georgia, serif",
+                                  }}>
+                                    Several hotels are available near the venue.
+                                  </p>
+                                  <a
+                                    href={NEARBY_HOTELS_URL}
+                                    target="_blank" rel="noopener noreferrer"
+                                    style={{
+                                      display: "inline-flex", alignItems: "center", gap: 5,
+                                      fontSize: 11, color: GOLD, textDecoration: "none",
+                                      letterSpacing: "0.1em", textTransform: "uppercase",
+                                    }}
+                                  >
+                                    <MapPin size={11} /> View nearby hotels <ExternalLink size={10} />
+                                  </a>
+                                </div>
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
                       </div>
 
-                      {/* Hotels panel */}
-                      <AnimatePresence>
-                        {formData.accommodation === "yes" && (
-                          <motion.div
-                            key="hotels"
-                            initial={{ opacity: 0, y: -6 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -6 }}
-                            transition={{ duration: 0.3 }}
-                            className="mt-4 p-5 rounded-xl"
-                            style={{
-                              background:
-                                "linear-gradient(135deg, #F5EFE6, #FAF7F2)",
-                              border: `1px solid ${GOLD}30`,
-                            }}
-                          >
-                            <div className="flex items-start gap-3 mb-3">
-                              <Hotel
-                                size={18}
+                      {/* Food Preferences */}
+                      <div>
+                        <FieldLabel>Food Preferences</FieldLabel>
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+                          {FOOD_OPTIONS.map((opt) => {
+                            const selected = formData.foodPreferences.includes(opt);
+                            return (
+                              <button
+                                key={opt} type="button" onClick={() => toggleFood(opt)}
                                 style={{
-                                  color: LEAF,
-                                  flexShrink: 0,
-                                  marginTop: 2,
-                                }}
-                              />
-                              <p
-                                className="text-sm leading-relaxed"
-                                style={{
-                                  fontFamily:
-                                    "'Cormorant Garamond','Cormorant',serif",
-                                  color: "rgba(107,45,62,0.75)",
+                                  padding: "9px 8px", borderRadius: 4, fontSize: 12,
+                                  fontFamily: "sans-serif", cursor: "pointer",
+                                  border: `1px solid ${selected ? GOLD : GOLD + "55"}`,
+                                  background: selected ? BURGUNDY : "transparent",
+                                  color: selected ? GOLD : "rgba(74,30,43,0.65)",
+                                  display: "flex", alignItems: "center",
+                                  justifyContent: "center", gap: 6,
                                 }}
                               >
-                                Several comfortable hotels are located within a
-                                short distance of Al-Saj Convention Centre.
-                                Browse options on Google Maps:
-                              </p>
-                            </div>
-                            <a
-                              href={NEARBY_HOTELS_URL}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full transition-all duration-200"
-                              style={{
-                                background: `linear-gradient(135deg, ${LEAF}, ${SAGE})`,
-                                color: CREAM,
-                                fontFamily:
-                                  "'Cormorant Garamond','Cormorant',serif",
-                                fontSize: "0.88rem",
-                                letterSpacing: "0.12em",
-                                textTransform: "uppercase",
-                                textDecoration: "none",
-                                boxShadow: "0 3px 14px rgba(45,90,27,0.22)",
-                              }}
-                            >
-                              <MapPin size={14} />
-                              Explore Nearby Hotels
-                              <ExternalLink size={12} />
-                            </a>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
-
-                    {/* Food Preferences */}
-                    <div>
-                      <FieldLabel>Food Preferences</FieldLabel>
-                      <div
-                        style={{
-                          display: "grid",
-                          gridTemplateColumns: "repeat(2, 1fr)",
-                          gap: "10px",
-                        }}
-                      >
-                        {FOOD_OPTIONS.map((pref) => {
-                          const selected = formData.foodPreferences.includes(pref);
-                          return (
-                            <button
-                              key={pref}
-                              type="button"
-                              onClick={() => toggleFood(pref)}
-                              style={{
-                                padding: "10px 16px",
-                                borderRadius: 8,
-                                background: selected
-                                  ? `linear-gradient(135deg, ${BURGUNDY}15, ${BURGUNDY}25)`
-                                  : "#FFFDF9",
-                                border: `1.5px solid ${selected ? GOLD : `${GOLD}45`}`,
-                                color: selected
-                                  ? BURGUNDY
-                                  : "rgba(107,45,62,0.5)",
-                                fontFamily:
-                                  "'Cormorant Garamond','Cormorant',serif",
-                                fontSize: "0.95rem",
-                                fontWeight: selected ? 600 : 400,
-                                cursor: "pointer",
-                                textAlign: "left",
-                                transition: "all 0.2s",
-                                display: "flex",
-                                alignItems: "center",
-                                gap: 8,
-                              }}
-                            >
-                              <span style={{ color: GOLD, fontSize: "0.75rem" }}>
-                                {selected ? "â—†" : "â—‡"}
-                              </span>
-                              {pref}
-                            </button>
-                          );
-                        })}
+                                <span style={{ fontSize: 9 }}>{selected ? "â—†" : "â—‡"}</span> {opt}
+                              </button>
+                            );
+                          })}
+                        </div>
                       </div>
-                    </div>
 
-                    {/* Special Requests */}
-                    <div>
-                      <FieldLabel>Special Requests or Allergies</FieldLabel>
-                      <textarea
-                        value={formData.specialRequests}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            specialRequests: e.target.value,
-                          })
-                        }
-                        placeholder="Any dietary requirements, mobility needs, or requests we should know aboutâ€¦"
-                        rows={3}
-                        style={{
-                          ...inputStyle,
-                          resize: "none",
-                          lineHeight: 1.6,
-                        }}
-                        onFocus={(e) => (e.target.style.borderColor = GOLD)}
-                        onBlur={(e) =>
-                          (e.target.style.borderColor = `${GOLD}60`)
-                        }
-                      />
-                    </div>
+                      {/* Special Requests */}
+                      <div>
+                        <FieldLabel>Special Requests</FieldLabel>
+                        <textarea
+                          rows={3}
+                          style={{ ...inputStyle, resize: "vertical" }}
+                          value={formData.specialRequests}
+                          onChange={(e) => setFormData((p) => ({ ...p, specialRequests: e.target.value }))}
+                          placeholder="Dietary needs, accessibility requirements, anything elseâ€¦"
+                        />
+                      </div>
 
-                    {/* Error */}
-                    {submitError && (
-                      <p
-                        className="text-center text-sm"
-                        style={{
-                          fontFamily:
-                            "'Cormorant Garamond','Cormorant',serif",
-                          color: "#C0392B",
-                        }}
-                      >
-                        {submitError}
-                      </p>
-                    )}
-
-                    {/* Submit */}
-                    <div className="text-center pt-2">
-                      <button
-                        type="submit"
-                        disabled={isSubmitting}
-                        className="inline-flex items-center gap-3 px-10 py-3.5 rounded-full transition-all duration-300"
-                        style={{
-                          background: isSubmitting
-                            ? "rgba(107,45,62,0.5)"
-                            : `linear-gradient(135deg, #6B2D3E, ${BURGUNDY})`,
-                          color: GOLD,
-                          border: "none",
-                          fontFamily:
-                            "'Cormorant Garamond','Cormorant',serif",
-                          fontSize: "1rem",
-                          letterSpacing: "0.16em",
-                          textTransform: "uppercase",
-                          boxShadow: isSubmitting
-                            ? "none"
-                            : "0 4px 24px rgba(107,45,62,0.28)",
-                          cursor: isSubmitting ? "not-allowed" : "pointer",
-                        }}
-                      >
-                        {isSubmitting ? (
-                          "Sendingâ€¦"
-                        ) : (
-                          <>
-                            <Send size={15} />
-                            Confirm Attendance
-                          </>
-                        )}
-                      </button>
-                      <p
-                        className="italic text-xs mt-3"
-                        style={{
-                          fontFamily:
-                            "'Cormorant Garamond','Cormorant',serif",
-                          color: "rgba(107,45,62,0.45)",
-                        }}
-                      >
-                        Kindly reply by {weddingConfig.rsvp.deadline}
-                      </p>
-                    </div>
-                  </form>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            {/* Thank You state */}
-            {isSubmitted && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
-                className="px-10 py-12 text-center"
-              >
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ type: "spring", delay: 0.1, stiffness: 200 }}
-                  className="inline-flex items-center justify-center w-16 h-16 rounded-full mx-auto mb-5"
-                  style={{
-                    background: `linear-gradient(135deg, ${LEAF}20, ${SAGE}30)`,
-                    border: `1.5px solid ${LEAF}40`,
-                  }}
-                >
-                  <CheckCircle size={28} style={{ color: LEAF }} />
-                </motion.div>
-
-                <h3
-                  style={{
-                    fontFamily: "'CAC Champagne','Great Vibes',cursive",
-                    fontSize: "clamp(1.8rem,6vw,2.8rem)",
-                    color: BURGUNDY,
-                    marginBottom: "0.75rem",
-                  }}
-                >
-                  Thank You!
-                </h3>
-
-                <p
-                  className="text-base leading-relaxed"
-                  style={{
-                    fontFamily: "'Cormorant Garamond','Cormorant',serif",
-                    color: "rgba(107,45,62,0.7)",
-                    maxWidth: 340,
-                    margin: "0 auto",
-                  }}
-                >
-                  We&apos;ve received your RSVP,{" "}
-                  <strong style={{ color: GOLD }}>{formData.name}</strong>.
-                  <br />
-                  We look forward to celebrating this beautiful day with you!
-                </p>
-
-                <div className="flex items-center justify-center gap-3 mt-6">
-                  <div style={{ width: 32, height: 1, background: GOLD }} />
-                  <span style={{ color: GOLD, fontSize: "1rem" }}>â™¥</span>
-                  <div style={{ width: 32, height: 1, background: GOLD }} />
-                </div>
-
-                <p
-                  className="italic text-xs mt-4"
-                  style={{
-                    fontFamily: "'Cormorant Garamond','Cormorant',serif",
-                    color: "rgba(107,45,62,0.4)",
-                  }}
-                >
-                  A confirmation will be sent to your provided contact details
-                </p>
-              </motion.div>
-            )}
-          </div>
-        </motion.div>
-
-        {/* Closing note */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3 }}
-          className="text-center italic text-sm mt-6"
-          style={{
-            fontFamily: "'Cormorant Garamond','Cormorant',serif",
-            color: "rgba(107,45,62,0.4)",
-          }}
-        >
-          We look forward to celebrating this beautiful day with you
-        </motion.p>
-      </div>
-
-      {/* Bottom border */}
-      <PremiumBotanicalBorder variant="light" style={{ marginTop: "2.5rem" }} />
-    </section>
-  );
-}
+                      {/* Error */}
+                      {submitError && (
+                        <p style={{ color: "#c0392b", fontSize: 13, fontFamily: "sans-serif", margin: 0 }}>
+                    +]ÍÕ‰µ¥ÑÉÉ½Éô(€€€€€€€€€€€€€€€€€€€€€€€€ğ½Àø(€€€€€€€€€€€€€€€€€€€€€€¥ô((€€€€€€€€€€€€€€€€€€€€€ì¼¨MÕ‰µ¥Ğ€¨½ô(€€€€€€€€€€€€€€€€€€€€€€ñ‰ÕÑÑ½¸(€€€€€€€€€€€€€€€€€€€€€€€ÑåÁ”ô‰ÍÕ‰µ¥Ğˆ‘¥Í…‰±•õí¥ÍMÕ‰µ¥ÑÑ¥¹ô(€€€€€€€€€€€€€€€€€€€€€€€ÍÑå±”õíì(€€€€€€€€€€€€€€€€€€€€€€€€€‰…­É½Õ¹è¥ÍMÕ‰µ¥ÑÑ¥¹œ€ü€‰É‰„ ÜĞ°ÌÀ°ĞÌ°À¸Ô¤ˆ€è	UIU9d°(€€€€€€€€€€€€€€€€€€€€€€€€€½±½Èè=1°‰½É‘•Èè€‰¹½¹”ˆ°‰½É‘•ÉI…‘¥ÕÌè€Ì°(€€€€€€€€€€€€€€€€€€€€€€€€€Á…‘‘¥¹œè€ˆÄÍÁà€Àˆ°™½¹ÑM¥é”è€ÄÄ°±•ÑÑ•ÉMÁ…¥¹œè€ˆÀ¸É•´ˆ°(€€€€€€€€€€€€€€€€€€€€€€€€€Ñ•áÑQÉ…¹Í™½É´è€‰ÕÁÁ•É…Í”ˆ°™½¹Ñ…µ¥±äè€‰Í…¹ÌµÍ•É¥˜ˆ°(€€€€€€€€€€€€€€€€€€€€€€€€€ÕÉÍ½Èè¥ÍMÕ‰µ¥ÑÑ¥¹œ€ü€‰¹½Ğµ…±±½İ•ˆ€è€‰Á½¥¹Ñ•Èˆ°(€€€€€€€€€€€€€€€€€€€€€€€€€‘¥ÍÁ±…äè€‰™±•àˆ°…±¥¹%Ñ•µÌè€‰•¹Ñ•Èˆ°(€€€€€€€€€€€€€€€€€€€€€€€€€©ÕÍÑ¥™å½¹Ñ•¹Ğè€‰•¹Ñ•Èˆ°…Àè€à°İ¥‘Ñ è€ˆÄÀÀ”ˆ°(€€€€€€€€€€€€€€€€€€€€€€€õô(€€€€€€€€€€€€€€€€€€€€€€ø(€€€€€€€€€€€€€€€€€€€€€€€í¥ÍMÕ‰µ¥ÑÑ¥¹œ€ü€ (€€€€€€€€€€€€€€€€€€€€€€€€€€‰M•¹‘¥¹ŸŠ˜ˆ(€€€€€€€€€€€€€€€€€€€€€€€€¤€è€ (€€€€€€€€€€€€€€€€€€€€€€€€€€ğø(€€€€€€€€€€€€€€€€€€€€€€€€€€€€ñM•¹Í¥é”õìÄÍô€¼ø½¹™¥É´ÑÑ•¹‘…¹”(€€€€€€€€€€€€€€€€€€€€€€€€€€ğ¼ø(€€€€€€€€€€€€€€€€€€€€€€€€¥ô(€€€€€€€€€€€€€€€€€€€€€€ğ½‰ÕÑÑ½¸ø(€€€€€€€€€€€€€€€€€€€€ğ½™½É´ø(€€€€€€€€€€€€€€€€€€ğ½µ½Ñ¥½¸¹‘¥Øø(€€€€€€€€€€€€€€€€¥ô(€€€€€€€€€€€€€€ğ½¹¥µ…Ñ•AÉ•Í•¹”ø(€€€€€€€€€€€€ğ¼ø(€€€€€€€€€€¥ô(€€€€€€€€ğ½‘¥Øø((€€€€€€€ì¼¨	½ÑÑ½´‰½Ñ…¹¥…°‰½É‘•È€¨½ô(€€€€€€€€ñAÉ•µ¥Õµ	½Ñ…¹¥…±	½É‘•ÈÍÑå±”õíìµ…É¥¹Q½Àè€ÈÀõô€¼ø(€€€€€€ğ½‘¥Øø(€€€€ğ½Í•Ñ¥½¸ø(€€¤ì)ô(
