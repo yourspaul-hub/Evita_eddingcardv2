@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 
 export const runtime = "nodejs";
 
@@ -16,11 +16,11 @@ export async function POST(req: NextRequest) {
   }
 
   const TO_EMAIL = "2wearthehope@gmail.com";
-  const appPassword = process.env.GMAIL_APP_PASSWORD;
+  const apiKey = process.env.RESEND_API_KEY;
 
-  // ── Graceful degradation ──────────────────────────────────────────────────
-  if (!appPassword) {
-    console.log("[RSVP] GMAIL_APP_PASSWORD not set — logging submission only:", {
+  // ── Graceful degradation ─────────────────────────────────────────────────────
+  if (!apiKey) {
+    console.log("[RSVP] RESEND_API_KEY not set — logging submission only:", {
       name: data.name,
       phone: data.phone,
       guests: data.guests,
@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true });
   }
 
-  // ── Format values ─────────────────────────────────────────────────────────
+  // ── Format values ─────────────────────────────────────────────────────────────
   const name = String(data.name);
   const phone = String(data.phone || "—");
   const guests = String(data.guests || "1");
@@ -45,9 +45,8 @@ export async function POST(req: NextRequest) {
   const special = String(data.specialRequests || "—");
   const timestamp = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
 
-  // ── HTML email ────────────────────────────────────────────────────────────
-  const html = `
-<!DOCTYPE html>
+  // ── HTML email ────────────────────────────────────────────────────────────────
+  const html = `<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8" />
@@ -92,35 +91,28 @@ export async function POST(req: NextRequest) {
     </div>
   </div>
 </body>
-</html>
-`;
+</html>`;
 
   const text = `
 New RSVP — Evita & Roshan Wedding
 
-Name:             ${name}
-Phone:            ${phone}
-Guests:           ${guests}
-Accommodation:    ${accommodation}
-Food Preferences: ${foodPrefs}
-Special Requests: ${special}
-Received At:      ${timestamp} IST
+Name:              ${name}
+Phone:             ${phone}
+Guests:            ${guests}
+Accommodation:     ${accommodation}
+Food Preferences:  ${foodPrefs}
+Special Requests:  ${special}
+Received At:       ${timestamp} IST
 
 Submitted via evitawedsroshan.com
 `.trim();
 
-  // ── Send via Gmail SMTP ───────────────────────────────────────────────────
+  // ── Send via Resend ───────────────────────────────────────────────────────────
   try {
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: TO_EMAIL,
-        pass: appPassword,
-      },
-    });
+    const resend = new Resend(apiKey);
 
-    await transporter.sendMail({
-      from: `"Evita & Roshan RSVP" <${TO_EMAIL}>`,
+    await resend.emails.send({
+      from: "Evita & Roshan RSVP <onboarding@resend.dev>",
       to: TO_EMAIL,
       subject: `💌 New RSVP — ${name} (${guests} guest${guests === "1" ? "" : "s"})`,
       html,
@@ -130,9 +122,8 @@ Submitted via evitawedsroshan.com
     console.log(`[RSVP] Email sent for: ${name}`);
     return NextResponse.json({ success: true });
   } catch (err) {
-    console.error("[RSVP] Gmail send failed:", err);
-    // Still return success to the guest — we don't want them to see an error
-    // The Vercel log will capture the failure for debugging
+    console.error("[RSVP] Resend send failed:", err);
+    // Guest never sees this error
     return NextResponse.json({ success: true });
   }
 }
