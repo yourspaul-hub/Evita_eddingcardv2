@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
-import { LaceBorderTop, OrnamentDivider } from "@/components/lace-border";
+import { LaceBorderTop, GradientDivider } from "@/components/lace-border";
 import { weddingConfig } from "@/lib/wedding-config";
 
 export function GallerySection() {
@@ -11,7 +11,7 @@ export function GallerySection() {
 
   return (
     <>
-      <LaceBorderTop color="#6B2D3E" />
+      <LaceBorderTop toColor="#6B2D3E" />
       <section style={{ background: "linear-gradient(180deg,#6B2D3E,#4A1E2B)" }} className="py-20 px-6">
         <div className="max-w-4xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
@@ -21,7 +21,7 @@ export function GallerySection() {
             <h2 className="font-script mb-2" style={{ fontSize: "clamp(2rem,7vw,3.2rem)", color: "rgba(250,247,242,0.92)" }}>
               Moments Together
             </h2>
-            <OrnamentDivider light />
+            <GradientDivider fromColor="rgba(200,169,81,0.6)" toColor="transparent" height={1} />
           </motion.div>
 
           {/* Photo grid */}
@@ -71,7 +71,7 @@ export function GallerySection() {
 
           {/* Heart */}
           <div className="text-center mt-10">
-            <span className="heartbeat text-3xl" style={{ color: "#C8A951", display: "inline-block" }}>♥</span>
+            <span className="heartbeat text-3xl" style={{ color: "#C8A951", display: "inline-block" }}>&#x2665;</span>
           </div>
         </div>
       </section>
