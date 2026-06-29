@@ -21,7 +21,7 @@ export const weddingConfig = {
     // Bride listed first per invitation convention
     bride: {
       fullName: "Evita Reny",
-      detail:   "Daughter of Reny Varghese & Sherly Reny, 1401 Tower 8, L&T Emerald Isle, Saki Vihar Road, Powai, Mumbai – 400072",
+      detail:   "Daughter of Reny Varghese & Sherly Reny, 1401 Tower 8, L&T Emerald Isle, Saki Vihar Road, Powai, Mumbai \u2013 400072",
     },
     groom: {
       fullName: "Roshan Abraham",
@@ -33,7 +33,7 @@ export const weddingConfig = {
   wedding: {
     date:          "2026-08-29",           // ISO format YYYY-MM-DD
     displayDate:   "August 29, 2026",
-    dotDate:       "29 · 08 · 26",         // dot-format shown on card
+    dotDate:       "29 \u00b7 08 \u00b7 26",         // dot-format shown on card
     dayOfWeek:     "Saturday",
     time:          "10:00 AM",
     venue:         "Milky Way Hall",
@@ -108,10 +108,10 @@ export const weddingConfig = {
   // ── MESSAGES ────────────────────────────────────────────
   messages: {
     saveTheDate:     "Save The Date",
-    formalFollow:    "Formal invitation to follow…",
+    formalFollow:    "Formal invitation to follow...",
     togetherWith:    "Together with their families,",
     requestPresence: "joyfully invite you to celebrate the marriage of",
-    dressCode:       "Smart Casual · Traditional Attire Welcome",
+    dressCode:       "Smart Casual \u00b7 Traditional Attire Welcome",
     closingLine:     "Sincerely",
   },
 };
